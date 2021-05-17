@@ -11,4 +11,7 @@ export interface CreateProductDto {
 
     // Category
     cat_id?: number;
+
+    // Location
+    loc_id?: number;
 }

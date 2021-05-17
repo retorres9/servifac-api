@@ -7,7 +7,7 @@ import { Warehouse } from '../warehouse/warehouse.entity';
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
     async createProduct(createProductDto: CreateProductDto): Promise<Product> {
-        const {prod_code, prod_name, prod_price, prod_quantity, war_id, wrs_quantity, cat_id} = createProductDto;
+        const {prod_code, prod_name, prod_price, prod_quantity, war_id, wrs_quantity, cat_id, loc_id} = createProductDto;
         const product = new Product();
         product.prod_code = prod_code;
         product.prod_name = prod_name;
@@ -26,8 +26,17 @@ export class ProductRepository extends Repository<Product> {
         product.warehouseStock = [warehouseStock];
         // Category
         product.category = cat_id;
+        // Location
+        product.location = loc_id;
         await product.save()
         delete warehouseStock.products;
         return product;
+    }
+
+    getProduct() {
+        const query = this.createQueryBuilder('product').leftJoinAndSelect('product.category','category').leftJoinAndSelect('product.warehouseStock','warehouseStock').leftJoinAndSelect('warehouseStock.warehouses', 'warehouse');
+        query.andWhere('product.cat_id = category.cat_id');
+        
+        return query.getMany();
     }
 }

@@ -10,5 +10,9 @@ export class ProductService {
     createProduct(createProductDto: CreateProductDto): Promise<Product> {
         return this.productRepository.createProduct(createProductDto);
     }
+
+    getProducts(): Promise<Product[]> {
+        return this.productRepository.getProduct();
+    }
     
 }

@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from '../product/product.entity';
 
 @Entity()
 export class Location extends BaseEntity {
@@ -7,4 +8,8 @@ export class Location extends BaseEntity {
 
     @Column({nullable: false})
     loc_name: string;
+
+    @OneToMany(type => Product, product => product.location)
+    @JoinColumn({name: 'prod_code'})
+    product: string;
 }
