@@ -33,7 +33,7 @@ export class ProductRepository extends Repository<Product> {
         return product;
     }
 
-    getProduct() {
+    getProducts() {
         const query = this.createQueryBuilder('product').leftJoinAndSelect('product.category','category').leftJoinAndSelect('product.warehouseStock','warehouseStock').leftJoinAndSelect('warehouseStock.warehouses', 'warehouse');
         query.andWhere('product.cat_id = category.cat_id');
         

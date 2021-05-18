@@ -12,7 +12,7 @@ export class ProductService {
     }
 
     getProducts(): Promise<Product[]> {
-        return this.productRepository.getProduct();
+        return this.productRepository.getProducts();
     }
     
 }
