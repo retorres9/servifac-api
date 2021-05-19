@@ -1,5 +1,6 @@
 import { BaseEntity, Entity, Column, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { Sale } from '../sale/sale.entity';
+import { Product } from '../product/product.entity';
 
 @Entity()
 export class SaleDetail extends BaseEntity {
@@ -15,4 +16,8 @@ export class SaleDetail extends BaseEntity {
     @ManyToOne(type => Sale, sale => sale.sale_id)
     @JoinColumn({name: 'sale_id'})
     sale: number;
+
+    @ManyToOne(type => Product, product => product.saleDetail)
+    @JoinColumn({name: 'prod_code'})
+    product: number[];
 }

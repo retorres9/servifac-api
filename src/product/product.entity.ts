@@ -2,6 +2,7 @@ import { WarehouseStock } from "src/warehouse-stock/warehouse-stock.entity";
 import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryColumn, JoinColumn } from 'typeorm';
 import { Category } from '../category/category.entity';
 import { Location } from '../location/location.entity';
+import { SaleDetail } from '../sale-detail/sale-detail.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -30,4 +31,7 @@ export class Product extends BaseEntity {
     @ManyToOne(type => Location, location => location.product, {eager: true})
     @JoinColumn({name: 'loc_id'})
     location: number;
+
+    @OneToMany(type => SaleDetail, saleDetail => saleDetail.product)
+    saleDetail: SaleDetail;
 }

@@ -18,7 +18,6 @@ export class ProductRepository extends Repository<Product> {
         
         let warehouseStock = new WarehouseStock();
         warehouseStock.warehouses = warehouse;
-        // Llamar a warehouse obtener su objeto y enviarlo
         warehouseStock.wrs_quantity = wrs_quantity;
         warehouseStock.products = product;
         warehouseStock = await WarehouseStock.create(warehouseStock);
