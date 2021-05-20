@@ -1,6 +1,7 @@
 import { type } from 'os';
-import { BaseEntity, Entity, PrimaryColumn, Column } from 'typeorm';
+import { BaseEntity, Entity, PrimaryColumn, Column, OneToMany } from 'typeorm';
 import { AccountType } from './prov_account-type.enum';
+import { ProviderMovement } from '../provider-movement/provider-movement.entity';
 
 @Entity()
 export class Provider extends BaseEntity {
@@ -27,4 +28,7 @@ export class Provider extends BaseEntity {
 
     @Column({default: true})
     prov_isActive: boolean;
+
+    @OneToMany(type => ProviderMovement, providerMovement => providerMovement.provider)
+    provMovement: ProviderMovement;
 }
