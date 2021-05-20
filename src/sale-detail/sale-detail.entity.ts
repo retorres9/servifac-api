@@ -1,6 +1,7 @@
 import { BaseEntity, Entity, Column, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { Sale } from '../sale/sale.entity';
 import { Product } from '../product/product.entity';
+import { Client } from '../client/client.entity';
 
 @Entity()
 export class SaleDetail extends BaseEntity {

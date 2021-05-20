@@ -1,5 +1,7 @@
+import { type } from "os";
 import { SaleDetail } from "src/sale-detail/sale-detail.entity";
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Client } from '../client/client.entity';
 
 @Entity()
 export class Sale extends BaseEntity {
@@ -17,5 +19,9 @@ export class Sale extends BaseEntity {
 
     @OneToMany(type => SaleDetail, sale => sale.sale, {eager: true})
     sale: string;
+
+    @ManyToOne(type => Client, client => client.sale)
+    @JoinColumn({name: 'cli_ci'})
+    client: Client;
 
 }
