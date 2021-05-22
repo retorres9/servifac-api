@@ -11,7 +11,7 @@ export class SaleDetail extends BaseEntity {
     @Column({type: 'tinyint'})
     sdt_quantity: number;
 
-    @Column()
+    @Column({type: 'decimal', precision: 7, scale: 3})
     sdt_salePrice: number;
 
     @ManyToOne(type => Sale, sale => sale.sale_id)

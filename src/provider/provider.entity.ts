@@ -20,7 +20,7 @@ export class Provider extends BaseEntity {
     @Column()
     prov_accountNumber: string;
 
-    @Column({type: 'decimal'})
+    @Column({type: 'decimal', precision: 7, scale: 3})
     prov_debt
 
     @Column({length: 10})

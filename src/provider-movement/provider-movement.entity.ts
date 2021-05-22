@@ -7,7 +7,7 @@ export class ProviderMovement extends BaseEntity {
     @PrimaryGeneratedColumn()
     pmv_id: number;
 
-    @Column({type: 'decimal'})
+    @Column({type: 'decimal', precision: 7, scale: 3})
     pmv_amount: number;
 
     @Column({type: 'datetime'})

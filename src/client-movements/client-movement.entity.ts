@@ -6,7 +6,7 @@ export class ClientMovement extends BaseEntity {
     @PrimaryGeneratedColumn()
     clp_id: number;
 
-    @Column()
+    @Column({type: 'decimal', precision: 7, scale: 3})
     clp_amount: number;
 
     @Column({type: 'datetime'})
@@ -15,6 +15,4 @@ export class ClientMovement extends BaseEntity {
     @ManyToOne(type => Client, client => client.clientMovement)
     @JoinColumn({name: 'cli_ci'})
     client: string;
-
-
 }

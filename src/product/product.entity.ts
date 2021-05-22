@@ -12,7 +12,7 @@ export class Product extends BaseEntity {
     @Column({unique: true, nullable: false})
     prod_name: string;
 
-    @Column({type: 'decimal'})
+    @Column({type: 'decimal', precision: 7, scale: 3})
     prod_price: number;
 
     @Column({default: true})

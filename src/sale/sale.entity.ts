@@ -8,10 +8,10 @@ export class Sale extends BaseEntity {
     @PrimaryGeneratedColumn()
     sale_id: number;
 
-    @Column({type: 'decimal'})
+    @Column({type: 'decimal', precision: 7, scale: 3})
     sale_totalAmount: number;
 
-    @Column({type: 'decimal'})
+    @Column({type: 'decimal', precision: 7, scale: 3})
     sale_totalPayment: number;
 
     @Column({type: 'datetime'})
