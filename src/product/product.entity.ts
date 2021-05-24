@@ -3,6 +3,7 @@ import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryColumn, JoinCo
 import { Category } from '../category/category.entity';
 import { Location } from '../location/location.entity';
 import { SaleDetail } from '../sale-detail/sale-detail.entity';
+import { ProductProvider } from '../product-provider/product-provider.entity';
 
 @Entity()
 export class Product extends BaseEntity {
@@ -15,11 +16,20 @@ export class Product extends BaseEntity {
     @Column({type: 'decimal', precision: 7, scale: 3})
     prod_price: number;
 
+    @Column({type: 'decimal', precision: 7, scale: 3})
+    prod_buyPrice: number;
+
+    @Column({type: 'decimal', precision: 7, scale: 3})
+    prod_majorPrice: number;
+
     @Column({default: true})
     prod_inStock: boolean;
 
-    @Column()
+    @Column({type: 'smallint'})
     prod_quantity: number;
+
+    @Column({type: 'smallint'})
+    prod_minQuantity: number;
 
     @OneToMany(type => WarehouseStock, warehouseStock => warehouseStock.products, {cascade: true})
     warehouseStock?: WarehouseStock[];
@@ -34,4 +44,7 @@ export class Product extends BaseEntity {
 
     @OneToMany(type => SaleDetail, saleDetail => saleDetail.product)
     saleDetail: SaleDetail;
+
+    @OneToMany(type => ProductProvider, productProvider => productProvider.ppr_product)
+    ppr_provider: Product;
 }

@@ -19,4 +19,12 @@ export class ClientRepository extends Repository<Client> {
             console.log(error);
         }
     }
+
+    async getDebtors(): Promise<Client> {
+        let client = new Client();
+        const query = this.createQueryBuilder('client');
+        query.andWhere('client.cli_debt > 0');
+        client = await query.execute();
+        return client;
+    }
 }

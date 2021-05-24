@@ -19,7 +19,7 @@ export class ProviderMovement extends BaseEntity {
     @Column()
     pmv_description?: string;
 
-    @ManyToOne(type => Provider, provider => provider.provMovement)
+    @ManyToOne(type => Provider, provider => provider.prov_movement)
     @JoinColumn({name: 'prov_ruc'})
     provider: string[];
 }

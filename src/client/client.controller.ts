@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { Client } from './client.entity';
 import { CreateClientDto } from './create-client.dto';
@@ -10,5 +10,10 @@ export class ClientController {
     @Post()
     createClient(@Body() createClientDto: CreateClientDto): Promise<Client> {
         return this.clientService.createClient(createClientDto);
+    }
+
+    @Get('debtors')
+    getDebtors(): Promise<Client> {
+        return this.clientService.getDebtors();
     }
 }
