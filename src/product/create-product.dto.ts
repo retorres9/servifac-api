@@ -14,4 +14,7 @@ export interface CreateProductDto {
 
     // Location
     loc_id?: number;
+
+    // Providers
+    ppr_productProvider?: string[];
 }

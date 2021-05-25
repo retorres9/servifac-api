@@ -16,22 +16,22 @@ export class Product extends BaseEntity {
     @Column({type: 'decimal', precision: 7, scale: 3})
     prod_price: number;
 
-    @Column({type: 'decimal', precision: 7, scale: 3})
+    @Column({type: 'decimal', precision: 7, scale: 3, default: 23.2})
     prod_buyPrice: number;
 
-    @Column({type: 'decimal', precision: 7, scale: 3})
+    @Column({type: 'decimal', precision: 7, scale: 3, default: 23.2})
     prod_majorPrice: number;
 
     @Column({default: true})
     prod_inStock: boolean;
 
-    @Column({type: 'smallint'})
+    @Column({type: 'smallint', default: 23})
     prod_quantity: number;
 
-    @Column({type: 'smallint'})
+    @Column({type: 'smallint', default: 2})
     prod_minQuantity: number;
 
-    @OneToMany(type => WarehouseStock, warehouseStock => warehouseStock.products, {cascade: true})
+    @OneToMany(type => WarehouseStock, warehouseStock => warehouseStock.products)
     warehouseStock?: WarehouseStock[];
 
     @ManyToOne(type => Category, categories => categories.products, {eager: true})
