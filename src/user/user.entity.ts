@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { UserRole } from './user-role.enum';
 import { Sale } from '../sale/sale.entity';
+import { ProviderMovement } from '../provider-movement/provider-movement.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -24,4 +25,7 @@ export class User extends BaseEntity {
 
     @OneToMany(type => Sale, sale => sale.sale_user)
     user_sale: number;
+
+    @OneToMany(type => ProviderMovement, providerMovement => providerMovement.pmv_user)
+    user_pmv: number;
 }

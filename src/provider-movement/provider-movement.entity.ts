@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { MovementType } from './movement-type.enum';
 import { Provider } from '../provider/provider.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class ProviderMovement extends BaseEntity {
@@ -22,4 +23,8 @@ export class ProviderMovement extends BaseEntity {
     @ManyToOne(type => Provider, provider => provider.prov_movement)
     @JoinColumn({name: 'prov_ruc'})
     provider: string[];
+
+    @ManyToOne(type => User, user => user.user_pmv)
+    @JoinColumn({name: 'user_ci'})
+    pmv_user: string ;
 }
