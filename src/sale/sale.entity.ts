@@ -2,6 +2,7 @@ import { type } from "os";
 import { SaleDetail } from "src/sale-detail/sale-detail.entity";
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Client } from '../client/client.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Sale extends BaseEntity {
@@ -24,4 +25,7 @@ export class Sale extends BaseEntity {
     @JoinColumn({name: 'cli_ci'})
     client: Client;
 
+    @ManyToOne(type => User, user => user.user_sale)
+    @JoinColumn({name: 'user_ci'})
+    sale_user: string;
 }

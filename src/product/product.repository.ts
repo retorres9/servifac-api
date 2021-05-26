@@ -59,13 +59,6 @@ export class ProductRepository extends Repository<Product> {
         .leftJoinAndSelect('product.ppr_provider','product_provider')
         .leftJoinAndSelect('product_provider.ppr_provider', 'provider')
         .select(['product.prod_name', 'product_provider', 'provider.prov_ruc']);
-        // 
-        // ;
-        // query.andWhere('product.cat_id = category.cat_id');
-        // query.andWhere('product.prod_code = product_provider.prod_code')
-        console.log(query.getSql());
-        
-        
         return query.getMany();
     }
 }

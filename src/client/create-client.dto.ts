@@ -4,4 +4,5 @@ export interface CreateClientDto {
     cli_ci: string;
     cli_phone: string;
     cli_debt?: number;
+    cli_isActive?: boolean;
 }
