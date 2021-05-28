@@ -1,6 +1,6 @@
 import { MovementType } from './movement-type.enum';
 
-export interface createProviderMovementDto {
+export class createProviderMovementDto {
     pmv_amount: number;
     pmv_date: Date;
     pmv_movement: MovementType;

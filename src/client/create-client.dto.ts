@@ -1,4 +1,4 @@
-export interface CreateClientDto {
+export class CreateClientDto {
     cli_firstName: string;
     cli_lastName: string;
     cli_ci: string;

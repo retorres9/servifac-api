@@ -1,6 +1,6 @@
 import { AccountType } from "./prov_account-type.enum";
 
-export interface CreateProviderDto {
+export class CreateProviderDto {
     prov_ruc: string;
     prov_name: string;
     prov_accountName: string;
