@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, MaxLength } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, MaxLength } from "class-validator";
 
 export class CreateProductDto {
     prod_name: string;
@@ -21,14 +21,17 @@ export class CreateProductDto {
     // Warehouse Stock
     war_id?: number;
 
+    @IsOptional()
     @IsNumber()
     wrs_quantity: number;
 
     // Category
+    @IsOptional()
     @IsNumber()
     cat_id?: number;
 
     // Location
+    @IsOptional()
     @IsNumber()
     loc_id?: number;
 
