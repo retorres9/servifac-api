@@ -14,4 +14,8 @@ export class ClientService {
     getDebtors(): Promise<Client> {
         return this.clientRepository.getDebtors();
     }
+
+    getClient(clientId: string): Promise<Client> {
+        return this.clientRepository.getClient(clientId);
+    }
 }

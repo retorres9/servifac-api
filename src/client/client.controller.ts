@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { Client } from './client.entity';
 import { CreateClientDto } from './create-client.dto';
@@ -15,5 +15,12 @@ export class ClientController {
     @Get('debtors')
     getDebtors(): Promise<Client> {
         return this.clientService.getDebtors();
+    }
+
+    @Get(':clientId')
+    getClient(@Param('clientId') clientId: string): Promise<Client> {
+        console.log(clientId);
+        
+        return this.clientService.getClient(clientId);
     }
 }

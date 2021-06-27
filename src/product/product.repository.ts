@@ -3,9 +3,9 @@ import { CreateProductDto } from './create-product.dto';
 import { Product } from './product.entity';
 import { WarehouseStock } from '../warehouse-stock/warehouse-stock.entity';
 import { Warehouse } from '../warehouse/warehouse.entity';
-import { ProductProviderRepository } from '../product-provider/product-provider.repository';
 import { ProductProvider } from './../product-provider/product-provider.entity';
-import { CreateProductProviderDto } from './../product-provider/create-product-provider.dto';
+import { ProductBarcode } from './productBarcode.model';
+
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
@@ -60,5 +60,12 @@ export class ProductRepository extends Repository<Product> {
         .leftJoinAndSelect('product_provider.ppr_provider', 'provider')
         .select(['product.prod_name', 'product_provider', 'provider.prov_ruc']);
         return query.getMany();
+    }
+
+    async getProductBarcode(prod_code): Promise<Product> {
+        const query = this.createQueryBuilder('product');
+        query.select(['product.prod_name', 'product.prod_price']);
+        query.where(`product.prod_code = :prod_code`,{prod_code});
+        return await query.getOne();
     }
 }

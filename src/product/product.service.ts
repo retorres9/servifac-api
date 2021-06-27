@@ -14,5 +14,9 @@ export class ProductService {
     getProducts(): Promise<Product[]> {
         return this.productRepository.getProducts();
     }
+
+    getProductBarcode(code: string): Promise<Object> {
+        return this.productRepository.getProductBarcode(code);
+    }
     
 }

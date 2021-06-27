@@ -8,12 +8,15 @@ export class ClientRepository extends Repository<Client> {
   async createClient(createClientDto: CreateClientDto): Promise<Client> {
     const { cli_ci, cli_firstName, cli_lastName, cli_debt, cli_phone } =
       createClientDto;
-    const client = new Client();
-    client.cli_ci = cli_ci;
-    client.cli_firstName = cli_firstName;
-    client.cli_lastName = cli_lastName;
-    client.cli_phone = cli_phone;
-    client.cli_debt = cli_debt ? cli_debt : 0.0;
+    const client = this.create({
+      cli_ci,
+      cli_firstName,
+      cli_lastName,
+      cli_phone,
+      cli_debt,
+    });
+    
+    //!! client.cli_debt = cli_debt ? cli_debt : 0.0; Review this code
     try {
       await client.save();
       return client;
@@ -55,5 +58,15 @@ export class ClientRepository extends Repository<Client> {
         message: 'Error while trying to update user',
       });
     }
+  }
+
+  getClient(clientId: string): Promise<Client> {
+    const query = this.createQueryBuilder('client');
+    query.where('cli_ci = :clientId', {clientId});    
+    const user = query.getOne();
+    if (!user) {
+      throw new BadRequestException('Client not found!!!');
+    }
+    return user;
   }
 }

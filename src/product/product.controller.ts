@@ -3,6 +3,7 @@ import { CreateProductDto } from './create-product.dto';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
 import { AuthGuard } from '@nestjs/passport';
+import { Param } from '@nestjs/common';
 
 @Controller('product')
 export class ProductController {
@@ -17,5 +18,12 @@ export class ProductController {
     @Get()
     getProducts(): Promise<Product[]> {
         return this.productService.getProducts();
+    }
+
+    @Get(':code')
+    getProducBarcode(@Param('code') code: string) {
+        console.log(code);
+        
+        return this.productService.getProductBarcode(code);
     }
 }
