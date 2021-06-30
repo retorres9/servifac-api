@@ -16,6 +16,9 @@ export class CreateClientDto {
     })
     cli_ci: string;
 
+    @IsOptional()
+    cli_email: string;
+
     @IsNotEmpty({
         message: 'Phone should not be empty'
     })

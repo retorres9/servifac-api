@@ -8,18 +8,17 @@ export class ClientController {
     constructor(private clientService: ClientService) {}
 
     @Post()
-    createClient(@Body() createClientDto: CreateClientDto): Promise<Client> {
+    createClient(@Body() createClientDto: CreateClientDto): Promise<Client> {        
         return this.clientService.createClient(createClientDto);
     }
 
     @Get('debtors')
-    getDebtors(): Promise<Client> {
+    getDebtors(): Promise<Client[]> {
         return this.clientService.getDebtors();
     }
 
     @Get(':clientId')
     getClient(@Param('clientId') clientId: string): Promise<Client> {
-        console.log(clientId);
         
         return this.clientService.getClient(clientId);
     }

@@ -6,7 +6,7 @@ import { CreateClientDto } from './create-client.dto';
 @EntityRepository(Client)
 export class ClientRepository extends Repository<Client> {
   async createClient(createClientDto: CreateClientDto): Promise<Client> {
-    const { cli_ci, cli_firstName, cli_lastName, cli_debt, cli_phone } =
+    const { cli_ci, cli_firstName, cli_lastName, cli_debt, cli_phone, cli_email } =
       createClientDto;
     const client = this.create({
       cli_ci,
@@ -14,6 +14,7 @@ export class ClientRepository extends Repository<Client> {
       cli_lastName,
       cli_phone,
       cli_debt,
+      cli_email
     });
     
     //!! client.cli_debt = cli_debt ? cli_debt : 0.0; Review this code
@@ -21,14 +22,17 @@ export class ClientRepository extends Repository<Client> {
       await client.save();
       return client;
     } catch (error) {
-      console.log(error);
+      throw new BadRequestException();
     }
   }
 
-  async getDebtors(): Promise<Client> {
-    let client = new Client();
+  async getDebtors(): Promise<Client[]> {
     const query = this.createQueryBuilder('client');
-    query.andWhere('client.cli_debt > 0');
+    query.andWhere('cli_debt > 0');
+    query.orderBy('cli_firstName', 'ASC')
+    const client = await query.getMany();
+    console.log(client);
+    
     return client;
   }
 

@@ -51,7 +51,7 @@ export class ProductRepository extends Repository<Product> {
         return product;
     }
 
-    getProducts() {
+    async getProducts() {
         const query = this.createQueryBuilder('product')
         .leftJoinAndSelect('product.category','category')
         .leftJoinAndSelect('product.warehouseStock','warehouseStock')
@@ -59,7 +59,8 @@ export class ProductRepository extends Repository<Product> {
         .leftJoinAndSelect('product.ppr_provider','product_provider')
         .leftJoinAndSelect('product_provider.ppr_provider', 'provider')
         .select(['product.prod_name', 'product_provider', 'provider.prov_ruc']);
-        return query.getMany();
+        const resp = await query.getMany();
+        return resp;
     }
 
     async getProductBarcode(prod_code): Promise<Product> {
@@ -67,5 +68,13 @@ export class ProductRepository extends Repository<Product> {
         query.select(['product.prod_name', 'product.prod_price']);
         query.where(`product.prod_code = :prod_code`,{prod_code});
         return await query.getOne();
+    }
+
+    async getProductWarning(): Promise<boolean> {
+        const query = this.createQueryBuilder('product');
+        query.where('prod_quantity < prod_minQuantity');
+        console.log(query.getSql());
+         const result = await query.getMany();
+        return result.length > 0 ? true : false;
     }
 }

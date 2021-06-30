@@ -11,7 +11,7 @@ export class ClientService {
         return this.clientRepository.createClient(createClientDto);
     }
 
-    getDebtors(): Promise<Client> {
+    getDebtors(): Promise<Client[]> {
         return this.clientRepository.getDebtors();
     }
 

@@ -13,6 +13,9 @@ export class Client extends BaseEntity {
     @Column()
     cli_lastName: string;
 
+    @Column()
+    cli_email?: string;
+
     @Column({length: 10})
     cli_phone: string;
 

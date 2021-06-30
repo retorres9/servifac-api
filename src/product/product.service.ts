@@ -15,8 +15,13 @@ export class ProductService {
         return this.productRepository.getProducts();
     }
 
-    getProductBarcode(code: string): Promise<Object> {
+    getProductBarcode(code: string): Promise<Product> {
         return this.productRepository.getProductBarcode(code);
     }
+
+    getProductWarning(): Promise<boolean> {
+        return this.productRepository.getProductWarning();
+    }
+
     
 }

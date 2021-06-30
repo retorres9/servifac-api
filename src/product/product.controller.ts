@@ -19,6 +19,13 @@ export class ProductController {
     getProducts(): Promise<Product[]> {
         return this.productService.getProducts();
     }
+    
+    @Get('war')
+    getProductWarning(): Promise<boolean> {
+        console.log('here');
+        
+        return this.productService.getProductWarning();
+    }
 
     @Get(':code')
     getProducBarcode(@Param('code') code: string) {
@@ -26,4 +33,5 @@ export class ProductController {
         
         return this.productService.getProductBarcode(code);
     }
+
 }
