@@ -1,11 +1,14 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { UserRole } from './user-role.enum';
 import { Sale } from '../sale/sale.entity';
 import { ProviderMovement } from '../provider-movement/provider-movement.entity';
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
+  user_id: number;
+
+  @Column({nullable: false})
   user_ci: string;
 
   @Column({ nullable: false })

@@ -1,12 +1,15 @@
 import { type } from 'os';
-import { BaseEntity, Entity, PrimaryColumn, Column, OneToMany } from 'typeorm';
+import { BaseEntity, Entity, PrimaryColumn, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AccountType } from './prov_account-type.enum';
 import { ProviderMovement } from '../provider-movement/provider-movement.entity';
 import { ProductProvider } from '../product-provider/product-provider.entity';
 
 @Entity()
 export class Provider extends BaseEntity {
-    @PrimaryColumn({length: 13})
+    @PrimaryGeneratedColumn()
+    prov_id: number;
+
+    @Column({length: 13, unique: true})
     prov_ruc: string
 
     @Column()

@@ -23,7 +23,7 @@ export class CreateProviderDto {
     @IsNumber()
     prov_debt: number;
 
-    
+    @MaxLength(11)
     prov_phone: string;
 }
 
