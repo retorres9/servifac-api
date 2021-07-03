@@ -4,10 +4,7 @@ import { ClientMovement } from '../client-movements/client-movement.entity';
 
 @Entity()
 export class Client extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    cli_id: number;
-
-    @Column({type: 'varchar', unique: true})
+    @PrimaryColumn({type: 'varchar'})
     cli_ci: string;
 
     @Column()

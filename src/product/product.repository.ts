@@ -5,12 +5,19 @@ import { WarehouseStock } from '../warehouse-stock/warehouse-stock.entity';
 import { Warehouse } from '../warehouse/warehouse.entity';
 import { ProductProvider } from './../product-provider/product-provider.entity';
 import { ProductBarcode } from './productBarcode.model';
+import { BadRequestException } from '@nestjs/common';
 
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
     async createProduct(createProductDto: CreateProductDto): Promise<Product> {
         const {prod_code, prod_name, prod_price, prod_quantity, war_id, wrs_quantity, cat_id, loc_id, ppr_productProvider} = createProductDto;
+        const prodFound = await this.findOne(prod_code);
+        console.log(prodFound);
+        
+        if (prodFound) {
+            throw new BadRequestException(`El código '${prod_code}' ya se encuentra asignado a otro producto`)
+        }
         const product = new Product();
         product.prod_code = prod_code;
         product.prod_name = prod_name;
@@ -67,6 +74,8 @@ export class ProductRepository extends Repository<Product> {
         const query = this.createQueryBuilder('product');
         query.select(['product.prod_name', 'product.prod_price']);
         query.where(`product.prod_code = :prod_code`,{prod_code});
+        console.log(query.getSql());
+        
         return await query.getOne();
     }
 

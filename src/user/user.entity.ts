@@ -5,10 +5,7 @@ import { ProviderMovement } from '../provider-movement/provider-movement.entity'
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  user_id: number;
-
-  @Column({nullable: false})
+  @PrimaryColumn({type: 'varchar'})
   user_ci: string;
 
   @Column({ nullable: false })

@@ -7,10 +7,7 @@ import { ProductProvider } from '../product-provider/product-provider.entity';
 
 @Entity()
 export class Product extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    prod_id: number;
-
-    @Column({unique: true})
+    @PrimaryColumn({unique: true, type: "varchar"})
     prod_code: string;
 
     @Column({unique: true, nullable: false})

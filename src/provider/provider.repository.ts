@@ -19,7 +19,10 @@ export class PorviderRepository extends Repository<Provider> {
       prov_phone,
     } = createProviderDto;
     console.log(prov_ruc);
-    
+    const provRucFound = await this.findOne(prov_ruc);
+    if (provRucFound) {
+      throw new BadRequestException(`RUC ${prov_ruc} already exists!`);
+    }
     const provider = this.create({
       prov_ruc,
       prov_name,
@@ -33,7 +36,10 @@ export class PorviderRepository extends Repository<Provider> {
     try {
       await provider.save();
     } catch (error) {
-      throw new BadRequestException()
+      console.error(error);
+      if (error.errno === 1062) {
+        throw new BadRequestException('Revise RUC o nombre de proveedor, verifique que el ruc o el nombre del proveedor no hayan sido ingresados')
+      }
     }
     return provider;
   }

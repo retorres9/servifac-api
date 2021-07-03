@@ -20,7 +20,7 @@ export class CreateProviderDto {
     @IsNotEmpty()
     prov_accountNumber: string;
 
-    @IsNumber()
+    @IsNotEmpty()
     prov_debt: number;
 
     @MaxLength(11)
