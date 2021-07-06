@@ -14,7 +14,7 @@ export class CategoryController {
     }
 
     @Post()
-    @UseGuards(AuthGuard())
+    // @UseGuards(AuthGuard())
     createCategory(@Body() createCategoryDto: CreateCategoryDto): Promise<Category> {
         return this.categoryService.createCategory(createCategoryDto);
     }
