@@ -12,15 +12,15 @@ export class Product extends BaseEntity {
 
     @Column({unique: true, nullable: false})
     prod_name: string;
-
-    @Column({type: 'decimal', precision: 7, scale: 3})
+    
+    @Column({type: 'decimal', precision: 7, scale: 3, default: 23.2})
     prod_price: number;
 
-    @Column({type: 'decimal', precision: 7, scale: 3, default: 23.2})
-    prod_buyPrice: number;
+    @Column({type: 'decimal', precision: 7, scale: 3})
+    prod_retailPrice: number;
 
     @Column({type: 'decimal', precision: 7, scale: 3, default: 23.2})
-    prod_majorPrice: number;
+    prod_wholesalePrice: number;
 
     @Column({default: true})
     prod_inStock: boolean;
