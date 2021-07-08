@@ -1,11 +1,10 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { BadRequestException } from '@nestjs/common';
+import { EntityRepository, getConnection, getManager, Repository } from 'typeorm';
 import { CreateProductDto } from './create-product.dto';
 import { Product } from './product.entity';
 import { WarehouseStock } from '../warehouse-stock/warehouse-stock.entity';
 import { Warehouse } from '../warehouse/warehouse.entity';
 import { ProductProvider } from './../product-provider/product-provider.entity';
-import { ProductBarcode } from './productBarcode.model';
-import { BadRequestException } from '@nestjs/common';
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
@@ -24,8 +23,9 @@ export class ProductRepository extends Repository<Product> {
       loc_id,
       ppr_productProvider,
     } = createProductDto;
+    console.log(ppr_productProvider);
+    
     const prodFound = await this.findOne(prod_code);
-    console.log(prodFound);
 
     if (prodFound) {
       throw new BadRequestException(
@@ -57,17 +57,24 @@ export class ProductRepository extends Repository<Product> {
     product.category = cat_id;
     // Location
     product.location = loc_id;
-    await product.save();
-
-    for (const providerRuc of ppr_productProvider) {
+    
+    // for (const providerRuc of ppr_productProvider) {
       const pp = new ProductProvider();
       pp.ppr_product = prod_code;
-
-      pp.ppr_provider = providerRuc;
+      
+      pp.ppr_provider = ppr_productProvider;
       console.log(pp);
+      await getConnection().transaction(async transactionalEntityManager => {
+        try {
+          await transactionalEntityManager.save(product);
+          await transactionalEntityManager.save(pp);
+        } catch(e) {
+          console.log('no se pudo guardar');
+          throw new BadRequestException('Error en la transaccion')
+        }
 
-      await pp.save();
-    }
+      } )
+    // }
     // await ppr_productProvider.map(async function(providerRuc) {
     // });
     return product;

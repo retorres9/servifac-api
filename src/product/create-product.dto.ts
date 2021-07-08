@@ -45,5 +45,5 @@ export class CreateProductDto {
     loc_id?: number;
 
     // Providers
-    ppr_productProvider?: string[];
+    ppr_productProvider?: string;
 }
