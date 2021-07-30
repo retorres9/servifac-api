@@ -27,7 +27,7 @@ export class ClientRepository extends Repository<Client> {
       await client.save();
       return client;
     } catch (error) {
-      throw new BadRequestException();
+      throw new BadRequestException(error);
     }
   }
 

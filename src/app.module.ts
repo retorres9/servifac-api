@@ -14,6 +14,7 @@ import { TYPEORMCONFIG } from './config/typeorm.config';
 import { ClientModule } from './client/client.module';
 import { ProductProviderModule } from './product-provider/product-provider.module';
 import { UserModule } from './user/user.module';
+import { ConfigurationModule } from './configuration/configuration.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { UserModule } from './user/user.module';
     ClientModule,
     ProductProviderModule,
     UserModule,
+    ConfigurationModule,
   ],
   controllers: [],
   providers: [],
