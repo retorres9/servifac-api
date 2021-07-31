@@ -14,11 +14,11 @@ export class CreateProductDto {
 
     @IsNotEmpty()
     @IsNumber()
-    prod_retailPrice: number;
+    prod_normalProfit: number;
 
     @IsNotEmpty()
     @IsNumber()
-    prod_wholesalePrice: number
+    prod_wholesaleProfit: number
     
     @IsNumber()
     prod_quantity: number;
@@ -27,6 +27,9 @@ export class CreateProductDto {
     prod_minQuantity: number;
     
     prod_inStock: boolean;
+
+    @IsNotEmpty()
+    prod_isTaxed: boolean;
     // Warehouse Stock
     war_id?: number;
     
@@ -43,6 +46,7 @@ export class CreateProductDto {
     @IsOptional()
     @IsNumber()
     loc_id?: number;
+
 
     // Providers
     ppr_productProvider?: string;

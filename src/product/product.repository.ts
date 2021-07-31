@@ -1,20 +1,22 @@
 import { BadRequestException } from '@nestjs/common';
-import { EntityRepository, getConnection, getManager, Repository } from 'typeorm';
+import { EntityRepository, getConnection, Repository } from 'typeorm';
 import { CreateProductDto } from './create-product.dto';
 import { Product } from './product.entity';
 import { WarehouseStock } from '../warehouse-stock/warehouse-stock.entity';
 import { Warehouse } from '../warehouse/warehouse.entity';
 import { ProductProvider } from './../product-provider/product-provider.entity';
+import { ProductBarcode } from './productBarcode.model';
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
+  prodOutput: ProductBarcode ;
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     const {
       prod_code,
       prod_name,
       prod_price,
-      prod_wholesalePrice,
-      prod_retailPrice,
+      prod_wholesaleProfit,
+      prod_normalProfit,
       prod_quantity,
       prod_minQuantity,
       war_id,
@@ -36,8 +38,8 @@ export class ProductRepository extends Repository<Product> {
     product.prod_code = prod_code;
     product.prod_name = prod_name;
     product.prod_price = prod_price;
-    product.prod_retailPrice = prod_retailPrice;
-    product.prod_wholesalePrice = prod_wholesalePrice;
+    product.prod_normalProfit = prod_normalProfit;
+    product.prod_wholesaleProfit = prod_wholesaleProfit;
     product.prod_minQuantity = prod_minQuantity;
     product.prod_quantity = prod_quantity;
     // Warehouse getting
@@ -88,17 +90,22 @@ export class ProductRepository extends Repository<Product> {
       .leftJoinAndSelect('product.ppr_provider', 'product_provider')
       .leftJoinAndSelect('product_provider.ppr_provider', 'provider')
       .select(['product.prod_name', 'product_provider', 'provider.prov_ruc']);
-    const resp = await query.getMany();
-    return resp;
+    return await query.getMany();
   }
 
-  async getProductBarcode(prod_code): Promise<Product> {
+  async getProductBarcode(prod_code, tax): Promise<ProductBarcode> {
     const query = this.createQueryBuilder('product');
-    query.select(['product.prod_name', 'product.prod_price']);
+    query.select(['product.prod_name', 'product.prod_price', 'product.prod_isTaxed', 'product.prod_normalProfit']);
     query.where(`product.prod_code = :prod_code`, { prod_code });
-    console.log(query.getSql());
-
-    return await query.getOne();
+    let product = await query.getOne();
+    
+    const asd = new ProductBarcode();
+    asd.prod_price = Number(product.prod_price) + (Number(product.prod_price) *( (product.prod_normalProfit / 100) + (tax / 100)));
+    asd.prod_name = product.prod_name;
+    asd.prod_isTaxed = product.prod_isTaxed;
+    console.log(asd);
+    
+    return asd;
   }
 
   async getProductWarning(): Promise<boolean> {
