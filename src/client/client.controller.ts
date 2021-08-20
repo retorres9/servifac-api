@@ -18,8 +18,7 @@ export class ClientController {
     }
 
     @Get(':clientId')
-    getClient(@Param('clientId') clientId: string): Promise<Client> {
-        
+    getClient(@Param('clientId') clientId: string): Promise<Client> {        
         return this.clientService.getClient(clientId);
     }
 }

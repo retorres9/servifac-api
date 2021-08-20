@@ -24,6 +24,11 @@ export class CreateClientDto {
     })
     cli_phone: string;
 
+    @IsNotEmpty({
+        message: 'Address should not be empty'
+    })
+    cli_address: string;
+
     @IsNumber()
     @IsOptional()
     cli_debt?: number;

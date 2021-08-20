@@ -28,7 +28,7 @@ export class CreateProductDto {
     
     prod_inStock: boolean;
 
-    @IsNotEmpty()
+    
     prod_isTaxed: boolean;
     // Warehouse Stock
     war_id?: number;

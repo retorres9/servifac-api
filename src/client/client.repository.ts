@@ -6,7 +6,7 @@ import { CreateClientDto } from './create-client.dto';
 @EntityRepository(Client)
 export class ClientRepository extends Repository<Client> {
   async createClient(createClientDto: CreateClientDto): Promise<Client> {
-    const { cli_ci, cli_firstName, cli_lastName, cli_debt, cli_phone, cli_email } =
+    const { cli_ci, cli_firstName, cli_lastName, cli_debt, cli_phone, cli_email, cli_address } =
       createClientDto;
 
     const clientFound = await this.findOne(cli_ci);
@@ -19,7 +19,8 @@ export class ClientRepository extends Repository<Client> {
       cli_lastName,
       cli_phone,
       cli_debt,
-      cli_email
+      cli_email,
+      cli_address
     });
     
     //!! client.cli_debt = cli_debt ? cli_debt : 0.0; Review this code
