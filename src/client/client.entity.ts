@@ -22,7 +22,7 @@ export class Client extends BaseEntity {
     @Column()
     cli_address: string;
 
-    @Column({type: 'decimal', precision: 7, scale: 3, default: 0.000})
+    @Column({type: 'decimal', precision: 10, scale: 3, default: 0.000})
     cli_debt?: number;
 
     @Column({default: true})
