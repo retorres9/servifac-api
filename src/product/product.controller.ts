@@ -19,17 +19,13 @@ export class ProductController {
         return this.productService.getProducts();
     }
     
-    @Get('war')
-    getProductWarning(): Promise<boolean> {
-        console.log('here');
-        
+    @Get('warning')
+    getProductWarning(): Promise<boolean> {        
         return this.productService.getProductWarning();
     }
 
     @Get(':code')
     getProducBarcode(@Param('code') code: string) {
-        console.log(code);
-        
         return this.productService.getProductBarcode(code);
     }
 

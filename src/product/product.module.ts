@@ -12,7 +12,11 @@ import { ConfigurationRepository } from '../configuration/configuration.reposito
   providers: [ProductService],
   imports: [
     UserModule,
-    TypeOrmModule.forFeature([ProductRepository, ProductProviderRepository, ConfigurationRepository]),
+    TypeOrmModule.forFeature([
+      ProductRepository,
+      ProductProviderRepository,
+      ConfigurationRepository,
+    ]),
   ],
 })
 export class ProductModule {}
