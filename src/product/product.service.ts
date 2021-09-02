@@ -9,8 +9,8 @@ import { ConfigurationRepository } from '../configuration/configuration.reposito
 @Injectable()
 export class ProductService {
     constructor(private productRepository: ProductRepository,
-        @InjectRepository(ConfigurationRepository)
-  private readonly config: ConfigurationRepository) {}
+                @InjectRepository(ConfigurationRepository)
+                private readonly config: ConfigurationRepository) {}
 
     createProduct(createProductDto: CreateProductDto): Promise<Product> {
         return this.productRepository.createProduct(createProductDto);
@@ -21,7 +21,6 @@ export class ProductService {
     }
 
     async getProductBarcode(code: string): Promise<ProductBarcode> {
-        console.log('reached');
         const productTax= await this.getTax();
         return this.productRepository.getProductBarcode(code, productTax); 
     }
@@ -34,10 +33,9 @@ export class ProductService {
         const queryTax = this.config.createQueryBuilder('configuration');
         queryTax.select('configuration.tax');
         queryTax.where('configuration.id = 1');
-        let tax = await queryTax.getOne();
-        
-        return tax.tax;
-      }
+        const taxEntity = await queryTax.getOne();
+        return taxEntity.tax;
+    }
 
     
 }

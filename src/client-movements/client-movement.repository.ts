@@ -10,9 +10,9 @@ export class ClientPaymentRespository extends Repository<ClientMovement> {
         clientMovement.clp_amount = clp_amount;
         try {
             await clientMovement.save();
-            return clientMovement;
         } catch (error) {
             console.log(error);
         }
+        return clientMovement;
     }
 }

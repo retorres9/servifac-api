@@ -1,32 +1,31 @@
 import { EntityRepository, Repository } from "typeorm";
 import { CreateWarehouseDto } from "./create-warehouse.dto";
 import { Warehouse } from './warehouse.entity';
+import { BadRequestException } from '@nestjs/common';
 
 @EntityRepository(Warehouse)
 export class WarehouseRepository extends Repository<Warehouse> {
-    createWarehouse(createWarehouseDto: CreateWarehouseDto): Promise<Warehouse> {
+    async createWarehouse(createWarehouseDto: CreateWarehouseDto): Promise<Warehouse> {
         const {war_name} = createWarehouseDto;
-        const warehouse = new Warehouse();
-        warehouse.war_name = war_name;
+        const warehouse = this.create({
+            war_name
+        });        
         try {
-            return warehouse.save();
+            await warehouse.save();
         } catch (error) {
-            console.log(error);
+            throw new BadRequestException(error);
         }
+        return warehouse;
     }
 
     async getWarehouses(): Promise<Warehouse[]> {
         const query = this.createQueryBuilder('warehouse');
-        const warehouses = await query.getMany()
-        return warehouses;
+        return query.getMany();;
     }
 
     async getWarehouseById(id: number): Promise<Warehouse> {
         const query = this.createQueryBuilder('warehouse');
-        query.andWhere(`warehouse.war_id = ${id}`)
-        console.log(query.getSql());
-        
-        const warehouse = await query.getOne()
-        return warehouse;
+        query.andWhere(`warehouse.war_id = ${id}`);
+        return query.getOne();
     }
 }

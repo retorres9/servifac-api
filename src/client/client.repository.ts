@@ -34,10 +34,11 @@ export class ClientRepository extends Repository<Client> {
     });
 
     try {
-      return await client.save();
+      await client.save();
     } catch (error) {
       throw new BadRequestException(error);
     }
+    return client;
   }
 
   async getDebtors(): Promise<Client[]> {

@@ -1,4 +1,3 @@
-import { type } from "os";
 import { SaleDetail } from "src/sale-detail/sale-detail.entity";
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Client } from '../client/client.entity';

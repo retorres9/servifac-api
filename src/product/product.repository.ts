@@ -9,7 +9,7 @@ import { ProductBarcode } from './productBarcode.model';
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
-  prodOutput: ProductBarcode ;
+  prodOutput: ProductBarcode;
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     const {
       prod_code,
@@ -26,7 +26,7 @@ export class ProductRepository extends Repository<Product> {
       ppr_productProvider,
     } = createProductDto;
     console.log(ppr_productProvider);
-    
+
     const prodFound = await this.findOne(prod_code);
 
     if (prodFound) {
@@ -45,11 +45,13 @@ export class ProductRepository extends Repository<Product> {
     // Warehouse getting
     if (war_id) {
       const warehouse = await Warehouse.findOne(war_id);
+      // ! Handle if warehouse does not exist
+      // ? Use create instead of build the warehouse object
       let warehouseStock = new WarehouseStock();
       warehouseStock.warehouses = warehouse;
       warehouseStock.wrs_quantity = wrs_quantity;
       warehouseStock.products = product;
-      warehouseStock = await WarehouseStock.create(warehouseStock);
+      warehouseStock = WarehouseStock.create(warehouseStock);
 
       product.warehouseStock = [warehouseStock];
       delete warehouseStock.products;
@@ -59,26 +61,20 @@ export class ProductRepository extends Repository<Product> {
     product.category = cat_id;
     // Location
     product.location = loc_id;
-    
-    // for (const providerRuc of ppr_productProvider) {
-      const pp = new ProductProvider();
-      pp.ppr_product = prod_code;
-      
-      pp.ppr_provider = ppr_productProvider;
-      console.log(pp);
-      await getConnection().transaction(async transactionalEntityManager => {
-        try {
-          await transactionalEntityManager.save(product);
-          await transactionalEntityManager.save(pp);
-        } catch(e) {
-          console.log('no se pudo guardar');
-          throw new BadRequestException('Error en la transaccion')
-        }
+    // ? More than one product provider should be handled
+    const pp = new ProductProvider();
+    pp.ppr_product = prod_code;
 
-      } )
-    // }
-    // await ppr_productProvider.map(async function(providerRuc) {
-    // });
+    pp.ppr_provider = ppr_productProvider;
+    console.log(pp);
+    await getConnection().transaction(async (transactionalEntityManager) => {
+      try {
+        await transactionalEntityManager.save(product);
+        await transactionalEntityManager.save(pp);
+      } catch (e) {
+        throw new BadRequestException('Error en la transaccion', e);
+      }
+    });
     return product;
   }
 
@@ -90,31 +86,37 @@ export class ProductRepository extends Repository<Product> {
       .leftJoinAndSelect('product.ppr_provider', 'product_provider')
       .leftJoinAndSelect('product_provider.ppr_provider', 'provider')
       .select(['product.prod_name', 'product_provider', 'provider.prov_ruc']);
-    return await query.getMany();
+    return query.getMany();
   }
 
   async getProductBarcode(prod_code, tax): Promise<ProductBarcode> {
     const query = this.createQueryBuilder('product');
-    query.select(['product.prod_name', 'product.prod_price', 'product.prod_isTaxed', 'product.prod_normalProfit']);
+    query.select([
+      'product.prod_name',
+      'product.prod_price',
+      'product.prod_isTaxed',
+      'product.prod_normalProfit',
+    ]);
     query.where(`product.prod_code = :prod_code`, { prod_code });
     let product = await query.getOne();
-    if(!product) {
+    if (!product) {
       throw new NotFoundException();
-    } 
-    const asd = new ProductBarcode();
-    asd.prod_price = Number(product.prod_price) + (Number(product.prod_price) *( (product.prod_normalProfit / 100) + (tax / 100)));
-    asd.prod_name = product.prod_name;
-    asd.prod_isTaxed = product.prod_isTaxed;
-    console.log(asd);
-    
-    return asd;
+    }
+    const productSearched = new ProductBarcode();
+    productSearched.prod_price = this.getPrice(Number(product.prod_price), product.prod_normalProfit, tax);
+    productSearched.prod_name = product.prod_name;
+    productSearched.prod_isTaxed = product.prod_isTaxed;
+    return productSearched;
   }
 
   async getProductWarning(): Promise<boolean> {
     const query = this.createQueryBuilder('product');
     query.where('prod_quantity < prod_minQuantity');
-    console.log(query.getSql());
     const result = await query.getMany();
     return result.length > 0 ? true : false;
+  }
+
+  private getPrice(price: number, normalProfit: number, tax: number) {
+    return price + price * (normalProfit / 100 + tax /100);
   }
 }

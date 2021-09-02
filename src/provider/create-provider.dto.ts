@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, MaxLength, MinLength } from "class-validator";
+import { IsNotEmpty, MaxLength, MinLength } from "class-validator";
 import { AccountType } from "./prov_account-type.enum";
 
 export class CreateProviderDto {
