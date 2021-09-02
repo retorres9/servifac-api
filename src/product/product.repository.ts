@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { EntityRepository, getConnection, Repository } from 'typeorm';
 import { CreateProductDto } from './create-product.dto';
 import { Product } from './product.entity';
@@ -98,7 +98,9 @@ export class ProductRepository extends Repository<Product> {
     query.select(['product.prod_name', 'product.prod_price', 'product.prod_isTaxed', 'product.prod_normalProfit']);
     query.where(`product.prod_code = :prod_code`, { prod_code });
     let product = await query.getOne();
-    
+    if(!product) {
+      throw new NotFoundException();
+    } 
     const asd = new ProductBarcode();
     asd.prod_price = Number(product.prod_price) + (Number(product.prod_price) *( (product.prod_normalProfit / 100) + (tax / 100)));
     asd.prod_name = product.prod_name;

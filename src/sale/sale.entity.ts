@@ -6,11 +6,13 @@ import { User } from '../user/user.entity';
 
 @Entity()
 export class Sale extends BaseEntity {
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn({
+        unsigned: true
+    })
     sale_id: number;
 
     @Column({type: 'decimal', precision: 7, scale: 3})
-    sale_totalAmount: number;
+    sale_totalRetail: number;
 
     @Column({type: 'decimal', precision: 7, scale: 3})
     sale_totalPayment: number;
@@ -19,11 +21,11 @@ export class Sale extends BaseEntity {
     sale_date: Date;
 
     @OneToMany(type => SaleDetail, sale => sale.sale, {eager: true})
-    sale: string;
+    sale: SaleDetail;
 
     @ManyToOne(type => Client, client => client.sale)
     @JoinColumn({name: 'cli_ci'})
-    client: Client;
+    sale_client: string;
 
     @ManyToOne(type => User, user => user.user_sale)
     @JoinColumn({name: 'user_ci'})

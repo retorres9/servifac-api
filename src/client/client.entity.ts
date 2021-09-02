@@ -28,7 +28,7 @@ export class Client extends BaseEntity {
     @Column({default: true})
     cli_isActive: boolean;
 
-    @OneToMany(type => Sale, sale => sale.client)
+    @OneToMany(type => Sale, sale => sale.sale_client)
     sale: Sale;
 
     @OneToMany(type => ClientMovement, clienMovement => clienMovement.client)
