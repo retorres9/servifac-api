@@ -16,7 +16,6 @@ export class UserRespository extends Repository<User> {
       user_role,
     } = createUserDto;
     const userFound = await this.findOne(user_ci);
-    console.log(userFound);
     
     if (userFound) {
       throw new BadRequestException(`El usuario con cédula '${user_ci}' ya existe`);
@@ -35,9 +34,9 @@ export class UserRespository extends Repository<User> {
 
     try {
       await this.save(user);
-      return user;
     } catch (error) {
-      console.log(error);
+      throw new BadRequestException(error);
     }
+    return user;
   }
 }

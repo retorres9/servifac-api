@@ -17,11 +17,4 @@ export class UserController {
   login(@Body() loginUserDto: LoginUserDto): Promise<{accessToken: string}> {
     return this.userService.login(loginUserDto);
   }
-
-  @Post('/test')
-  @UseGuards(AuthGuard())
-  test(@Req() req) {
-    console.log(req);
-    
-  }
 }

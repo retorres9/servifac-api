@@ -18,7 +18,6 @@ export class PorviderRepository extends Repository<Provider> {
       prov_debt,
       prov_phone,
     } = createProviderDto;
-    console.log(prov_ruc);
     const provRucFound = await this.findOne(prov_ruc);
     if (provRucFound) {
       throw new BadRequestException(`RUC ${prov_ruc} already exists!`);
@@ -44,14 +43,10 @@ export class PorviderRepository extends Repository<Provider> {
     return provider;
   }
 
-  getProviderName(): Promise<GetProviderName> {
-    let providers;
+  async getProviderName(): Promise<GetProviderName> {
     const query = this.createQueryBuilder('provider');
     query.select('provider.prov_ruc, provider.prov_name');
     query.where('provider.prov_isActive = true');
-
-    providers = query.execute();
-
-    return providers;
+    return query.execute();
   }
 }

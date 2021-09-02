@@ -6,9 +6,6 @@ import { ProductProvider } from '../product-provider/product-provider.entity';
 
 @Entity()
 export class Provider extends BaseEntity {
-    // @PrimaryGeneratedColumn()
-    // prov_id: number;
-
     @PrimaryColumn({length: 13, unique: true})
     prov_ruc: string
 
