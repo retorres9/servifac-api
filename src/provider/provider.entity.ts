@@ -1,4 +1,3 @@
-import { type } from 'os';
 import { BaseEntity, Entity, PrimaryColumn, Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AccountType } from './prov_account-type.enum';
 import { ProviderMovement } from '../provider-movement/provider-movement.entity';

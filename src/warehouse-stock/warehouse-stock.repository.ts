@@ -2,9 +2,6 @@ import { EntityRepository, Repository } from "typeorm";
 import { WarehouseStock } from './warehouse-stock.entity';
 import { CreateWarehouseStockDto } from './create-warehouse-stock.dto';
 import { Warehouse } from '../warehouse/warehouse.entity';
-import { WarehouseService } from '../warehouse/warehouse.service';
-import { InjectRepository } from "@nestjs/typeorm";
-import { WarehouseRepository } from '../warehouse/warehouse.repository';
 import { BadRequestException } from '@nestjs/common';
 
 @EntityRepository(WarehouseStock)
