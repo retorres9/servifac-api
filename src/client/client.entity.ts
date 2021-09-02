@@ -19,13 +19,16 @@ export class Client extends BaseEntity {
     @Column({length: 10})
     cli_phone: string;
 
+    @Column()
+    cli_address: string;
+
     @Column({type: 'decimal', precision: 7, scale: 3, default: 0.000})
     cli_debt?: number;
 
     @Column({default: true})
     cli_isActive: boolean;
 
-    @OneToMany(type => Sale, sale => sale.client)
+    @OneToMany(type => Sale, sale => sale.sale_client)
     sale: Sale;
 
     @OneToMany(type => ClientMovement, clienMovement => clienMovement.client)

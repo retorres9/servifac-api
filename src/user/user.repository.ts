@@ -15,7 +15,9 @@ export class UserRespository extends Repository<User> {
       user_password,
       user_role,
     } = createUserDto;
-    const userFound = await this.findOne();
+    const userFound = await this.findOne(user_ci);
+    console.log(userFound);
+    
     if (userFound) {
       throw new BadRequestException(`El usuario con cédula '${user_ci}' ya existe`);
     }
