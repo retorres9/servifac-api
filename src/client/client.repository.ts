@@ -6,12 +6,22 @@ import { CreateClientDto } from './create-client.dto';
 @EntityRepository(Client)
 export class ClientRepository extends Repository<Client> {
   async createClient(createClientDto: CreateClientDto): Promise<Client> {
-    const { cli_ci, cli_firstName, cli_lastName, cli_debt, cli_phone, cli_email, cli_address } =
-      createClientDto;
-
+    const {
+      cli_ci,
+      cli_firstName,
+      cli_lastName,
+      cli_debt,
+      cli_phone,
+      cli_email,
+      cli_address,
+    } = createClientDto;
+    
     const clientFound = await this.findOne(cli_ci);
+
     if (clientFound) {
-      throw new BadRequestException(`El cliente con cédula '${cli_ci}' ya está registrado`);
+      throw new BadRequestException(
+        `El cliente con cédula '${cli_ci}' ya está registrado`,
+      );
     }
     const client = this.create({
       cli_ci,
@@ -20,13 +30,11 @@ export class ClientRepository extends Repository<Client> {
       cli_phone,
       cli_debt,
       cli_email,
-      cli_address
+      cli_address,
     });
-    
-    //!! client.cli_debt = cli_debt ? cli_debt : 0.0; Review this code
+
     try {
-      await client.save();
-      return client;
+      return await client.save();
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -35,11 +43,8 @@ export class ClientRepository extends Repository<Client> {
   async getDebtors(): Promise<Client[]> {
     const query = this.createQueryBuilder('client');
     query.andWhere('cli_debt > 0');
-    query.orderBy('cli_firstName', 'ASC')
-    const client = await query.getMany();
-    console.log(client);
-    
-    return client;
+    query.orderBy('cli_firstName', 'ASC');
+    return query.getMany();
   }
 
   async updateClient(createClientDto: CreateClientDto): Promise<boolean> {
@@ -53,7 +58,7 @@ export class ClientRepository extends Repository<Client> {
     } = createClientDto;
     let updatedClient = await Client.findOne(cli_ci);
     if (!updatedClient) {
-      throw new NotFoundException({ message: `Client with id ${cli_ci}` });
+      throw new NotFoundException({ message: `Client with id ${cli_ci} does not exist` });
     }
     updatedClient.cli_firstName = cli_firstName;
     updatedClient.cli_lastName = cli_lastName;
@@ -72,7 +77,7 @@ export class ClientRepository extends Repository<Client> {
 
   getClient(clientId: string): Promise<Client> {
     const query = this.createQueryBuilder('client');
-    query.where('cli_ci = :clientId', {clientId});    
+    query.where('cli_ci = :clientId', { clientId });
     const user = query.getOne();
     if (!user) {
       throw new BadRequestException('Client not found!!!');
