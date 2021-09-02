@@ -6,8 +6,9 @@ import { CreateCategoryDto } from "./create-category.dto";
 export class CategoryRepository extends Repository<Category> {
     createCategory(createCategoryDto: CreateCategoryDto): Promise<Category> {
         const {cat_name} = createCategoryDto;
-        const category = new Category();
-        category.cat_name = cat_name;
+        const category = this.create({
+            cat_name
+        });
         try {
             return category.save();
         } catch (error) {
@@ -15,9 +16,8 @@ export class CategoryRepository extends Repository<Category> {
         }
     }
 
-    getCategories(): Promise<Category[]> {
+    async getCategories(): Promise<Category[]> {
         const query = this.createQueryBuilder('category');
-        const categories = query.getMany();
-        return categories;
+        return query.getMany();
     }
 }
