@@ -1,5 +1,5 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, Like, Repository } from 'typeorm';
 import { Client } from './client.entity';
 import { CreateClientDto } from './create-client.dto';
 
@@ -15,7 +15,7 @@ export class ClientRepository extends Repository<Client> {
       cli_email,
       cli_address,
     } = createClientDto;
-    
+
     const clientFound = await this.findOne(cli_ci);
 
     if (clientFound) {
@@ -59,7 +59,9 @@ export class ClientRepository extends Repository<Client> {
     } = createClientDto;
     let updatedClient = await Client.findOne(cli_ci);
     if (!updatedClient) {
-      throw new NotFoundException({ message: `Client with id ${cli_ci} does not exist` });
+      throw new NotFoundException({
+        message: `Client with id ${cli_ci} does not exist`,
+      });
     }
     updatedClient.cli_firstName = cli_firstName;
     updatedClient.cli_lastName = cli_lastName;
@@ -84,5 +86,25 @@ export class ClientRepository extends Repository<Client> {
       throw new BadRequestException('Client not found!!!');
     }
     return user;
+  }
+
+  getClientByQuery(query: string): Promise<Client[]> {
+    const users = this.find({
+      where: [
+        { cli_firstName: Like(`%${query}%`) },
+        { cli_lastName: Like(`%${query}%`) },
+      ],
+      order: {
+        cli_lastName: 'ASC',
+        cli_firstName: 'ASC'
+      }
+    });
+    
+
+    try {
+      return users;
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

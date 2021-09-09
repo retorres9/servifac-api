@@ -39,6 +39,7 @@ export class SaleRepository extends Repository<Sale> {
             const product = await Product.findOne({
               where: { prod_name: sale[key].prod },
             });
+            await transactionalEntityManager.decrement(Product, {prod_code: product.prod_code}, 'prod_quantity', sale[key].cant)
             saleDetail.sdt_quantity = sale[key].cant;
             saleDetail.sdt_salePrice = sale[key].price;
             saleDetail.product = product.prod_code;

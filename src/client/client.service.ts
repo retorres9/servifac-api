@@ -18,4 +18,8 @@ export class ClientService {
     getClient(clientId: string): Promise<Client> {
         return this.clientRepository.getClient(clientId);
     }
+
+    getClientByQuery(query: string): Promise<Client[]> {
+        return this.clientRepository.getClientByQuery(query);
+    }
 }
