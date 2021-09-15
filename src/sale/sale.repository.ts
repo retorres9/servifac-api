@@ -9,28 +9,30 @@ import { BadRequestException } from '@nestjs/common';
 @EntityRepository(Sale)
 export class SaleRepository extends Repository<Sale> {
   async createSale(createSaleDto: CreateSaleDto, user: User) {
-    console.log(user);
-
     const {
       sale,
       sale_totalRetail,
+      sale_date,
       sale_totalPayment,
       sale_user,
       sale_client,
     } = createSaleDto;
 
-    const sales = this.create({
-      sale,
-      sale_totalRetail,
-      sale_totalPayment,
-      sale_date: new Date().toLocaleDateString('ec-ES'),
-      sale_user,
-      sale_client,
-    });
-
+    
+    
     await getConnection().transaction(async (transactionalEntityManager) => {
+      const sales = this.create({
+        sale,
+        sale_totalRetail,
+        sale_totalPayment,
+        sale_date,
+        sale_user,
+        sale_client,
+      });
+      console.log(sales.sale_date);
       try {
         let saleEntity = await transactionalEntityManager.save(sales);
+        
         for (const key in sale) {
           const saleDetail = new SaleDetail();
           if (sale.hasOwnProperty(key)) {
@@ -48,6 +50,8 @@ export class SaleRepository extends Repository<Sale> {
           transactionalEntityManager.save(saleDetail);
         }
       } catch (error) {
+        console.log('REACHED ERROR');
+        
         throw new BadRequestException(error);
       }
     });

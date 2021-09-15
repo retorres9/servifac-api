@@ -12,7 +12,7 @@ export class CreateSaleDto {
 
     // @IsDate()
     // @IsNotEmpty()
-    // sale_date: Date;
+    sale_date: Date;
 
     sale: Sale;
 
