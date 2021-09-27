@@ -16,8 +16,8 @@ export class ProductService {
         return this.productRepository.createProduct(createProductDto);
     }
 
-    getProducts(): Promise<Product[]> {
-        return this.productRepository.getProducts();
+    getProducts(param: string): Promise<Product[]> {
+        return this.productRepository.getProducts(param);
     }
 
     async getProductBarcode(code: string): Promise<ProductBarcode> {

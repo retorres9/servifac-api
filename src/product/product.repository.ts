@@ -1,5 +1,5 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { EntityRepository, getConnection, Repository } from 'typeorm';
+import { EntityRepository, getConnection, Like, Repository } from 'typeorm';
 import { CreateProductDto } from './create-product.dto';
 import { Product } from './product.entity';
 import { WarehouseStock } from '../warehouse-stock/warehouse-stock.entity';
@@ -78,15 +78,24 @@ export class ProductRepository extends Repository<Product> {
     return product;
   }
 
-  async getProducts() {
-    const query = this.createQueryBuilder('product')
-      .leftJoinAndSelect('product.category', 'category')
-      .leftJoinAndSelect('product.warehouseStock', 'warehouseStock')
-      .leftJoinAndSelect('warehouseStock.warehouses', 'warehouse')
-      .leftJoinAndSelect('product.ppr_provider', 'product_provider')
-      .leftJoinAndSelect('product_provider.ppr_provider', 'provider')
-      .select(['product.prod_name', 'product_provider', 'provider.prov_ruc']);
-    return query.getMany();
+  async getProducts(param): Promise<Product[]> {
+    const prodsFilterd = this.find({
+      where: [
+        {prod_name: Like(`%${param}%`)},
+        {prod_code: Like(`%${param}%`)}
+      ]
+    })
+
+    return prodsFilterd;
+    // const query = this.createQueryBuilder('product')
+    //   .leftJoinAndSelect('product.category', 'category')
+    //   .leftJoinAndSelect('product.warehouseStock', 'warehouseStock')
+    //   .leftJoinAndSelect('warehouseStock.warehouses', 'warehouse')
+    //   .leftJoinAndSelect('product.ppr_provider', 'product_provider')
+    //   .leftJoinAndSelect('product_provider.ppr_provider', 'provider')
+    //   .select(['product.prod_name', 'product_provider', 'provider.prov_ruc']);
+    
+    // return query.getMany();
   }
 
   async getProductBarcode(prod_code, tax): Promise<ProductBarcode> {
