@@ -22,4 +22,8 @@ export class ClientService {
     getClientByQuery(query: string): Promise<Client[]> {
         return this.clientRepository.getClientByQuery(query);
     }
+
+    getClientSummary(ci: string) {
+        return this.clientRepository.getClientSummary(ci);
+    }
 }

@@ -6,7 +6,12 @@ import { CreateClientDto } from './create-client.dto';
 @Controller('client')
 export class ClientController {
     constructor(private clientService: ClientService) {}
-
+    
+    @Get()
+    getClientByQuery(@Query('name') name: string): Promise<Client[]> {        
+        return this.clientService.getClientByQuery(name);
+    }
+    
     @Post()
     createClient(@Body() createClientDto: CreateClientDto): Promise<Client> {        
         return this.clientService.createClient(createClientDto);
@@ -16,14 +21,16 @@ export class ClientController {
     getDebtors(): Promise<Client[]> {
         return this.clientService.getDebtors();
     }
-
     @Get(':clientId')
     getClient(@Param('clientId') clientId: string): Promise<Client> {        
         return this.clientService.getClient(clientId);
     }
 
-    @Get()
-    getClientByQuery(@Query('name') name: string): Promise<Client[]> {        
-        return this.clientService.getClientByQuery(name);
+    @Get('summary/:clientId')
+    getClientSummary(@Param('clientId')ci: string) {        
+        return this.clientService.getClientSummary(ci);
     }
+
+
+
 }

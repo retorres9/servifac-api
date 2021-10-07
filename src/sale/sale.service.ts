@@ -12,8 +12,11 @@ export class SaleService {
         
     }
     async createSale(createSaleDto: CreateSaleDto) {
-        // ! Change to get sale user
-        const user = await this.user.findOne(createSaleDto.sale_client);
+        const user = await this.user.findOne({user_username: createSaleDto.sale_user});
         return this.saleRepository.createSale(createSaleDto, user);
+    }
+    
+    async getSaleById(saleId: string) {
+        return this.saleRepository.getSaleById(saleId);
     }
 }

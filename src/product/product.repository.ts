@@ -118,11 +118,37 @@ export class ProductRepository extends Repository<Product> {
     return productSearched;
   }
 
+  async  getProductsInventory(criteria: string): Promise<Product[]> {
+    const result = this.find({
+      where: [
+        {
+          prod_name: Like(`%${criteria}%`)
+        },
+        {
+          prod_code: Like(`%${criteria}%`)
+        }
+      ],
+      order: 
+        {
+          prod_name: 'ASC'
+        }
+      
+    })
+    return result;
+  }
+
   async getProductWarning(): Promise<boolean> {
     const query = this.createQueryBuilder('product');
     query.where('prod_quantity < prod_minQuantity');
     const result = await query.getMany();
     return result.length > 0 ? true : false;
+  }
+
+  async getProductMinimums(): Promise<Product[]> {
+    const query = this.createQueryBuilder('product');
+    query.where('prod_quantity < prod_minQuantity');
+    return query.getMany();
+    
   }
 
   private getPrice(price: number, normalProfit: number, tax: number) {

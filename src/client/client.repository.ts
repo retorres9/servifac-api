@@ -93,18 +93,26 @@ export class ClientRepository extends Repository<Client> {
       where: [
         { cli_firstName: Like(`%${query}%`) },
         { cli_lastName: Like(`%${query}%`) },
+        { cli_ci: Like(`${query}`)}
       ],
       order: {
         cli_lastName: 'ASC',
-        cli_firstName: 'ASC'
-      }
+        cli_firstName: 'ASC',
+      },
     });
-    
 
     try {
       return users;
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async getClientSummary(ci: string) {
+    const query = this.createQueryBuilder('client')
+      .leftJoinAndSelect('client.sale', 'sale')
+      .select(['sale.sale_id', 'sale.sale_date', 'sale.sale_totalRetail', 'client'])
+      .where('client.cli_ci = :client_ci', { client_ci: ci });
+    return query.getOne();
   }
 }

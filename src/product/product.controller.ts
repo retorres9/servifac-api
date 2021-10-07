@@ -24,9 +24,19 @@ export class ProductController {
         return this.productService.getProductWarning();
     }
 
+    @Get('minimums')
+    getProductMinimums() {
+        return this.productService.getProductMinimums();
+    }
+
+    
     @Get(':code')
     getProducBarcode(@Param('code') code: string) {
         return this.productService.getProductBarcode(code);
     }
-
+    
+    @Get('inventory/:criteria')
+    getProductsInventory(@Param('criteria') criteria: string): Promise<Product[]> {
+        return this.productService.getProductsInventory(criteria);
+    }
 }

@@ -29,6 +29,14 @@ export class ProductService {
         return this.productRepository.getProductWarning();
     }
 
+    getProductsInventory(criteria: string): Promise<Product[]> {
+        return this.productRepository.getProductsInventory(criteria);
+    }
+
+    getProductMinimums(): Promise<Product[]> {
+        return this.productRepository.getProductMinimums();
+    }
+
     private async getTax() {
         const queryTax = this.config.createQueryBuilder('configuration');
         queryTax.select('configuration.tax');
