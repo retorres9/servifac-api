@@ -49,4 +49,10 @@ export class PorviderRepository extends Repository<Provider> {
     query.where('provider.prov_isActive = true');
     return query.execute();
   }
+
+  async getAllProviders() {
+    const query = this.createQueryBuilder('provider');
+    query.where('provider.prov_isActive = true');
+    return query.getMany();
+  }
 }

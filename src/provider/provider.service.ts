@@ -12,7 +12,11 @@ export class ProviderService {
         return this.providerRepository.createProvider(createProviderDto);
     }
 
-    getProviders(): Promise<GetProviderName> {
+    getProviders() {
+        return this.providerRepository.getAllProviders();
+    }
+
+    getProvidersName(): Promise<GetProviderName> {
         return this.providerRepository.getProviderName();
     }
 }

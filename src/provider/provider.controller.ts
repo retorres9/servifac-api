@@ -12,8 +12,13 @@ export class ProviderController {
         return this.providerService.createProvider(createProviderDto)
     }
 
+    @Get()
+    getproviders() {
+        return this.providerService.getProviders();
+    }
+
     @Get('combo')
     getProviderName(): Promise<GetProviderName> {
-        return this.providerService.getProviders();
+        return this.providerService.getProvidersName();
     }
 }
