@@ -16,7 +16,7 @@ export class Sale extends BaseEntity {
     @Column({type: 'decimal', precision: 7, scale: 3})
     sale_totalPayment: number;
 
-    @Column({type: 'datetime'})
+    @Column({type: 'date'})
     sale_date: Date;
 
     @OneToMany(type => SaleDetail, sale => sale.sale, {eager: true})

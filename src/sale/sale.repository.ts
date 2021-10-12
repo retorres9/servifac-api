@@ -21,6 +21,7 @@ export class SaleRepository extends Repository<Sale> {
     
     let asd = user.user_ci
     await getConnection().transaction(async (transactionalEntityManager) => {
+      console.log(sale_date);
       const sales = this.create({
         sale,
         sale_totalRetail,
@@ -41,7 +42,6 @@ export class SaleRepository extends Repository<Sale> {
             const product = await Product.findOne({
               where: { prod_name: sale[key].prod_name },
             });
-            console.log(sale);
             
             await transactionalEntityManager.decrement(Product, {prod_code: product.prod_code}, 'prod_quantity', sale[key].cant)
             saleDetail.sdt_quantity = sale[key].cant;
@@ -67,5 +67,14 @@ export class SaleRepository extends Repository<Sale> {
     .where('sale.sale_id = :saleId', {saleId});
     console.log(query.getSql());
     return query.getOne();
+  }
+
+  async getSales() {
+    const actualDate = new Date().toISOString().split('T')[0];
+    const query = this.createQueryBuilder('sale')
+    .leftJoinAndSelect('sale.sale_client', 'client')
+    .select(['sale', 'client.cli_firstName']);
+    query.where('sale_date = :date', {date: actualDate});
+    return query.getMany();    
   }
 }
