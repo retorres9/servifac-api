@@ -2,6 +2,8 @@ import { SaleDetail } from "src/sale-detail/sale-detail.entity";
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Client } from '../client/client.entity';
 import { User } from '../user/user.entity';
+import { SaleState } from "./enums/sale-state.enum";
+import { SaleType } from './enums/sale-type.enum';
 
 @Entity()
 export class Sale extends BaseEntity {
@@ -18,6 +20,16 @@ export class Sale extends BaseEntity {
 
     @Column({type: 'date'})
     sale_date: Date;
+
+    // ? Added new Info related to SALE
+    @Column()
+    sale_paymentType: SaleType;
+
+    @Column()
+    sale_saleState: SaleState;
+
+    @Column({default: 1})
+    sale_store: number;
 
     @OneToMany(type => SaleDetail, sale => sale.sale, {eager: true})
     sale: SaleDetail;

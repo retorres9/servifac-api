@@ -16,10 +16,10 @@ export class SaleRepository extends Repository<Sale> {
       sale_totalPayment,
       sale_user,
       sale_client,
+      sale_paymentType,
+      sale_saleState
     } = createSaleDto;
 
-    
-    let asd = user.user_ci
     await getConnection().transaction(async (transactionalEntityManager) => {
       console.log(sale_date);
       const sales = this.create({
@@ -29,6 +29,8 @@ export class SaleRepository extends Repository<Sale> {
         sale_date,
         sale_user,
         sale_client,
+        sale_paymentType,
+        sale_saleState
       });
       sales.sale_user = user.user_ci;
       try {
@@ -69,12 +71,13 @@ export class SaleRepository extends Repository<Sale> {
     return query.getOne();
   }
 
-  async getSales() {
-    const actualDate = new Date().toISOString().split('T')[0];
+  async getSales(date: string) {
+    const actualDate = new Date().toISOString().split('T')[0];    
     const query = this.createQueryBuilder('sale')
     .leftJoinAndSelect('sale.sale_client', 'client')
-    .select(['sale', 'client.cli_firstName']);
-    query.where('sale_date = :date', {date: actualDate});
+    .select(['sale', 'client.cli_firstName', 'client.cli_lastName']);
+    query.where('sale_date = :date', {date: date});
+    query.andWhere('sale_saleState = "DELIVERED"');
     return query.getMany();    
   }
 }

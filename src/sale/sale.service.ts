@@ -17,7 +17,7 @@ export class SaleService {
     }
 
     async getSales(date: string) {
-        return this.saleRepository.getSales();
+        return this.saleRepository.getSales(date);
     }
     
     async getSaleById(saleId: string) {

@@ -1,5 +1,7 @@
-import { IsDate, IsNotEmpty, IsNumber } from "class-validator";
+import { IsNotEmpty, IsNumber } from "class-validator";
 import { Sale } from "./sale.entity";
+import { SaleType } from './enums/sale-type.enum';
+import { SaleState } from "./enums/sale-state.enum";
 
 export class CreateSaleDto {
     @IsNumber()
@@ -10,15 +12,21 @@ export class CreateSaleDto {
     @IsNotEmpty()
     sale_totalPayment: number;
 
-    // @IsDate()
     // @IsNotEmpty()
     sale_date: Date;
 
+    @IsNotEmpty()
     sale: Sale;
 
+    @IsNotEmpty()
     sale_client: string;
 
+    @IsNotEmpty()
     sale_user: string;
 
-    
+    sale_paymentType: SaleType;
+
+    sale_saleState: SaleState;
+
+    // ! Missing store id
 }
