@@ -90,8 +90,13 @@ export class ClientRepository extends Repository<Client> {
   }
 
   getClient(clientId: string): Promise<Client> {
-    const query = this.createQueryBuilder('client');
-    query.where('cli_ci = :clientId', { clientId });
+    console.log(clientId);
+    
+    const query = this.createQueryBuilder('client')
+    .leftJoinAndSelect('client.credit', 'credit')
+    .leftJoinAndSelect('client.sale', 'sale');
+    query.where('client.cli_ci = :clientId', { clientId });
+    query.andWhere('sale.sale_totalPayment < sale.sale_totalRetail');
     const user = query.getOne();
     if (!user) {
       throw new BadRequestException('Client not found!!!');

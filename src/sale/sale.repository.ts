@@ -19,6 +19,8 @@ export class SaleRepository extends Repository<Sale> {
       sale_paymentType,
       sale_saleState
     } = createSaleDto;
+    console.log(createSaleDto);
+    
 
     await getConnection().transaction(async (transactionalEntityManager) => {
       console.log(sale_date);

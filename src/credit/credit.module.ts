@@ -4,6 +4,7 @@ import { CreditService } from './credit.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientRepository } from '../client/client.repository';
 import { CreditRepository } from './credit.repository';
+import { SaleRepository } from '../sale/sale.repository';
 
 @Module({
   controllers: [CreditController],
@@ -11,7 +12,8 @@ import { CreditRepository } from './credit.repository';
   imports: [
     TypeOrmModule.forFeature([
       CreditRepository,
-      ClientRepository
+      ClientRepository,
+      SaleRepository
     ])
   ]
 })
