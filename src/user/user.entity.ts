@@ -2,6 +2,7 @@ import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedC
 import { UserRole } from './user-role.enum';
 import { Sale } from '../sale/sale.entity';
 import { ProviderMovement } from '../provider-movement/provider-movement.entity';
+import { Credit } from '../credit/credit.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -34,4 +35,7 @@ export class User extends BaseEntity {
     (providerMovement) => providerMovement.pmv_user,
   )
   user_pmv: number;
+
+  @OneToMany(type => Credit, credit => credit.user)
+  credit: Credit;
 }

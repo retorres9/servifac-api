@@ -35,4 +35,6 @@ export class CreateClientDto {
 
     @IsOptional()
     cli_isActive?: boolean;
+
+    cli_credit: number;
 }

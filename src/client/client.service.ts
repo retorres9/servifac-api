@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ClientRepository } from './client.repository';
 import { CreateClientDto } from './create-client.dto';
 import { Client } from './client.entity';
+import { CreditAuth } from './models/credit-auth.dto';
 
 @Injectable()
 export class ClientService {
@@ -25,5 +26,9 @@ export class ClientService {
 
     getClientSummary(ci: string) {
         return this.clientRepository.getClientSummary(ci);
+    }
+
+    postCreditAuth(auth: CreditAuth) {
+        return this.clientRepository.postCreditAuth(auth);
     }
 }

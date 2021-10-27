@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { Sale } from '../sale/sale.entity';
 import { ClientMovement } from '../client-movements/client-movement.entity';
+import { Credit } from "src/credit/credit.entity";
 
 @Entity()
 export class Client extends BaseEntity {
@@ -21,6 +22,9 @@ export class Client extends BaseEntity {
 
     @Column()
     cli_address: string;
+
+    @OneToMany(type => Credit, credit => credit.client, {eager: true})
+    credit: number;
 
     @Column({type: 'decimal', precision: 10, scale: 3, default: 0.000})
     cli_debt?: number;
