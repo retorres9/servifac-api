@@ -3,6 +3,7 @@ import { ClientRepository } from './client.repository';
 import { CreateClientDto } from './create-client.dto';
 import { Client } from './client.entity';
 import { CreditAuth } from './models/credit-auth.dto';
+import { ClientInfo } from './models/client-info.dto';
 
 @Injectable()
 export class ClientService {
@@ -16,7 +17,7 @@ export class ClientService {
         return this.clientRepository.getDebtors();
     }
 
-    getClient(clientId: string): Promise<Client> {
+    getClient(clientId: string): Promise<ClientInfo> {
         return this.clientRepository.getClient(clientId);
     }
 
@@ -28,7 +29,7 @@ export class ClientService {
         return this.clientRepository.getClientSummary(ci);
     }
 
-    postCreditAuth(auth: CreditAuth) {
-        return this.clientRepository.postCreditAuth(auth);
-    }
+    // postCreditAuth(auth: CreditAuth) {
+    //     return this.clientRepository.postCreditAuth(auth);
+    // }
 }

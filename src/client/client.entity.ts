@@ -24,7 +24,7 @@ export class Client extends BaseEntity {
     cli_address: string;
 
     @OneToMany(type => Credit, credit => credit.client, {eager: true})
-    credit: number;
+    credit: Credit;
 
     @Column({type: 'decimal', precision: 10, scale: 3, default: 0.000})
     cli_debt?: number;

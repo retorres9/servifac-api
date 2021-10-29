@@ -3,6 +3,7 @@ import { ClientService } from './client.service';
 import { Client } from './client.entity';
 import { CreateClientDto } from './create-client.dto';
 import { CreditAuth } from './models/credit-auth.dto';
+import { ClientInfo } from './models/client-info.dto';
 
 @Controller('client')
 export class ClientController {
@@ -19,7 +20,7 @@ export class ClientController {
     }
     
     @Get(':clientId')
-    getClient(@Param('clientId') clientId: string): Promise<Client> {        
+    getClient(@Param('clientId') clientId: string): Promise<ClientInfo> {        
         return this.clientService.getClient(clientId);
     }
     
@@ -33,10 +34,10 @@ export class ClientController {
         return this.clientService.getClientSummary(ci);
     }
 
-    @Patch('credit')
-    postCreditAuth(@Body() auth: CreditAuth) {
-        return this.clientService.postCreditAuth(auth);
-    }
+    // @Patch('credit')
+    // postCreditAuth(@Body() auth: CreditAuth) {
+    //     return this.clientService.postCreditAuth(auth);
+    // }
 
 
 
