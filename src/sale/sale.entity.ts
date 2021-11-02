@@ -31,6 +31,9 @@ export class Sale extends BaseEntity {
     @Column({default: 1})
     sale_store: number;
 
+    @Column({nullable: true, type: 'date'})
+    sale_maxDate: Date
+
     @OneToMany(type => SaleDetail, sale => sale.sale, {eager: true})
     sale: SaleDetail;
 

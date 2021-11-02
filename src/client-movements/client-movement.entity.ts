@@ -9,10 +9,13 @@ export class ClientMovement extends BaseEntity {
     @Column({type: 'decimal', precision: 7, scale: 3})
     clp_amount: number;
 
-    @Column({type: 'datetime'})
+    @Column()
+    clm_type: string;
+
+    @Column({type: 'date'})
     clp_date: Date;
 
     @ManyToOne(type => Client, client => client.clientMovement)
     @JoinColumn({name: 'cli_ci'})
-    client: string;
+    client: Client;
 }

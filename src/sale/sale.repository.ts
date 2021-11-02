@@ -17,11 +17,13 @@ export class SaleRepository extends Repository<Sale> {
       sale_user,
       sale_client,
       sale_paymentType,
-      sale_saleState
+      sale_saleState,
+      sale_toDate
     } = createSaleDto;
     console.log(createSaleDto);
     
-
+    // Validate date
+    let newSale_toDate = sale_toDate ? this.getMaxDate(sale_toDate) : null;    
     await getConnection().transaction(async (transactionalEntityManager) => {
       console.log(sale_date);
       const sales = this.create({
@@ -32,7 +34,8 @@ export class SaleRepository extends Repository<Sale> {
         sale_user,
         sale_client,
         sale_paymentType,
-        sale_saleState
+        sale_saleState,
+        sale_maxDate: newSale_toDate ? newSale_toDate.toISOString().split('T')[0] : null
       });
       sales.sale_user = user.user_ci;
       try {
@@ -61,6 +64,12 @@ export class SaleRepository extends Repository<Sale> {
         throw new BadRequestException(error);
       }
     });
+  }
+
+  private getMaxDate(date: Date) {
+    let maxDate = new Date();
+    const dateMiliseconds = maxDate.setDate(new Date(date).getDate() + 7);
+    return maxDate = new Date(dateMiliseconds);
   }
 
   async getSaleById(saleId: string) {

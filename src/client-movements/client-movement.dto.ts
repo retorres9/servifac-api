@@ -1,4 +1,5 @@
-export interface ClientPaymentDto {
+export interface ClientMovementDto {
     clp_amount: number;
-    clp_date: Date;
+    cli_ci: string;
+    clm_type: string;
 }

@@ -15,6 +15,8 @@ export class CreateSaleDto {
     // @IsNotEmpty()
     sale_date: Date;
 
+    sale_toDate: Date;
+
     @IsNotEmpty()
     sale: Sale;
 

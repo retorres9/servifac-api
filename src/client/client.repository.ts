@@ -149,12 +149,14 @@ export class ClientRepository extends Repository<Client> {
   async getClientSummary(ci: string) {
     const query = this.createQueryBuilder('client')
       .leftJoinAndSelect('client.sale', 'sale')
+      .leftJoinAndSelect('client.credit', 'credit')
       .select([
         'sale.sale_id',
         'sale.sale_date',
         'sale.sale_totalRetail',
         'sale.sale_totalPayment',
         'client',
+        'credit'
       ])
       .where('client.cli_ci = :client_ci', { client_ci: ci });
     return query.getOne();
