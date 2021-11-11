@@ -5,6 +5,7 @@ import { SaleDetail } from '../sale-detail/sale-detail.entity';
 import { User } from 'src/user/user.entity';
 import { Product } from '../product/product.entity';
 import { BadRequestException } from '@nestjs/common';
+import Decimal from 'decimal.js';
 
 @EntityRepository(Sale)
 export class SaleRepository extends Repository<Sale> {
@@ -20,16 +21,15 @@ export class SaleRepository extends Repository<Sale> {
       sale_saleState,
       sale_toDate
     } = createSaleDto;
-    console.log(createSaleDto);
-    
+    const total = new Decimal(sale_totalRetail).toFixed(2);
+    const amount = new Decimal(sale_totalPayment).toFixed(2);
     // Validate date
     let newSale_toDate = sale_toDate ? this.getMaxDate(sale_toDate) : null;    
     await getConnection().transaction(async (transactionalEntityManager) => {
-      console.log(sale_date);
       const sales = this.create({
         sale,
-        sale_totalRetail,
-        sale_totalPayment,
+        sale_totalRetail: +total,
+        sale_totalPayment: +amount,
         sale_date,
         sale_user,
         sale_client,
@@ -78,7 +78,6 @@ export class SaleRepository extends Repository<Sale> {
     .leftJoinAndSelect('sale-detail.product', 'product')
     .select(['sale-detail','product.prod_name', 'product.prod_code','sale'])
     .where('sale.sale_id = :saleId', {saleId});
-    console.log(query.getSql());
     return query.getOne();
   }
 

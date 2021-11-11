@@ -155,20 +155,11 @@ export class ClientRepository extends Repository<Client> {
         'sale.sale_date',
         'sale.sale_totalRetail',
         'sale.sale_totalPayment',
+        'sale.sale_maxDate',
         'client',
         'credit'
       ])
       .where('client.cli_ci = :client_ci', { client_ci: ci });
     return query.getOne();
   }
-
-  // async postCreditAuth(auth: CreditAuth) {
-  //   const { userId, amount } = auth;
-  //   return getConnection()
-  //     .createQueryBuilder()
-  //     .update(Client)
-  //     .set({ credit: amount })
-  //     .where('cli_ci = :ci', { ci: userId })
-  //     .execute();
-  // }
 }
