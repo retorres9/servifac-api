@@ -18,6 +18,11 @@ export class ClientController {
     createClient(@Body() createClientDto: CreateClientDto): Promise<Client> {        
         return this.clientService.createClient(createClientDto);
     }
+
+    @Patch()
+    postCreditAuth(@Body() createClient: CreateClientDto) {
+        return this.clientService.updateClient(createClient);
+    }
     
     @Get(':clientId')
     getClient(@Param('clientId') clientId: string): Promise<ClientInfo> {        
@@ -33,12 +38,4 @@ export class ClientController {
     getClientSummary(@Param('clientId')ci: string) {        
         return this.clientService.getClientSummary(ci);
     }
-
-    // @Patch('credit')
-    // postCreditAuth(@Body() auth: CreditAuth) {
-    //     return this.clientService.postCreditAuth(auth);
-    // }
-
-
-
 }

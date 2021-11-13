@@ -90,4 +90,11 @@ export class SaleRepository extends Repository<Sale> {
     query.andWhere('sale_saleState = "DELIVERED"');
     return query.getMany();    
   }
+
+  async getAlert() {
+    const query = this.createQueryBuilder('sale');
+    query.where('sale.sale_totalPayment < sale.sale_totalRetail');
+    console.log(await query.getCount());
+    
+  }
 }

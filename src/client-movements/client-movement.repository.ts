@@ -4,12 +4,13 @@ import { ClientMovementDto } from './client-movement.dto';
 import { ClientMovement } from './client-movement.entity';
 import { Decimal } from 'decimal.js';
 import { BadRequestException } from '@nestjs/common';
+import { Client } from '../client/client.entity';
 
 @EntityRepository(ClientMovement)
 export class ClientMovementRespository extends Repository<ClientMovement> {
     async postMovement(cliMovementDto: ClientMovementDto): Promise<any> {
         // ! No errors are being sent back
-        let {clm_amount, cli_ci, clm_type} = cliMovementDto;
+        let {clm_amount, cli_ci, clm_type} = cliMovementDto;        
         const amountReceived = clm_amount;
         const clientQuery = Sale.createQueryBuilder('sale');
         clientQuery.leftJoinAndSelect('sale.sale_client', 'client');
@@ -34,8 +35,15 @@ export class ClientMovementRespository extends Repository<ClientMovement> {
         sales.forEach(sale => {
             delete sale.sale_client;
         })
-        
+        const client = await Client.findOne(cli_ci);
+        if (client) {
+            console.log(client);
+            
+        } else {
+            throw new BadRequestException();
+        }
         const clientMovement = new ClientMovement();
+        clientMovement.client = client;
         clientMovement.clp_amount = amountReceived;
         clientMovement.clm_type = clm_type;
         clientMovement.clp_date = new Date();
@@ -45,5 +53,13 @@ export class ClientMovementRespository extends Repository<ClientMovement> {
             throw new BadRequestException();
         }
         return sales;
+    }
+
+    async getClientHistory(client_ci: string) {
+        const query = this.createQueryBuilder('cm');
+        query.leftJoinAndSelect('cm.client','client');
+        query.where('cm.cli_ci = :client_ci', {client_ci});
+        query.select(['cm', 'client.cli_firstName']);
+        return query.getMany();
     }
 }

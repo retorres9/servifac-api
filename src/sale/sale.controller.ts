@@ -10,6 +10,11 @@ export class SaleController {
     onNewSale(@Body()createSaleDto: CreateSaleDto) {
         return this.saleService.createSale(createSaleDto);
     }
+
+    @Get('alert')
+    getAlert() {
+        return this.saleService.getAlert();
+    }
     
     @Get('/listing')
     getSales(@Query('date')date) {

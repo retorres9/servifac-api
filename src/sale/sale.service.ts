@@ -23,4 +23,8 @@ export class SaleService {
     async getSaleById(saleId: string) {
         return this.saleRepository.getSaleById(saleId);
     }
+
+    async getAlert() {
+        return this.saleRepository.getAlert();
+    }
 }
