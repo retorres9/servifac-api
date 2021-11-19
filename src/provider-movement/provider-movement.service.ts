@@ -10,4 +10,8 @@ export class ProviderMovementService {
     postProviderMovement(provMovement: createProviderMovementDto) {
         return this.pmvRepository.postProviderMovement(provMovement);
     }
+
+    getProviderMovements(query) {
+        return this.pmvRepository.getProviderMovements(query);
+    }
 }

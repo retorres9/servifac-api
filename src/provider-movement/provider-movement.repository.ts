@@ -39,4 +39,14 @@ export class ProviderMovementRepository extends Repository<ProviderMovement> {
         }
         
     }
+
+    async getProviderMovements(queryobject) {
+        const query = this.createQueryBuilder('pmv');
+        query.where('pmv.provider = :ruc', {ruc: queryobject.provider})
+        if (queryobject.type !== 'ALL') {
+            query.andWhere('pmv.pmv_movement = :action', {action: queryobject.type});
+        }
+        query.orderBy('pmv.pmv_date', 'DESC');
+        return query.getMany();
+    }
 }
