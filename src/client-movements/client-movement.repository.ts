@@ -60,6 +60,7 @@ export class ClientMovementRespository extends Repository<ClientMovement> {
         query.leftJoinAndSelect('cm.client','client');
         query.where('cm.cli_ci = :client_ci', {client_ci});
         query.select(['cm', 'client.cli_firstName']);
+        query.orderBy('cm.clp_date', 'DESC');
         return query.getMany();
     }
 }

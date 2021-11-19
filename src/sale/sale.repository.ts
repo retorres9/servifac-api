@@ -92,9 +92,11 @@ export class SaleRepository extends Repository<Sale> {
   }
 
   async getAlert() {
+    const today = new Date().toISOString().split('T')[0];
     const query = this.createQueryBuilder('sale');
+    query.leftJoinAndSelect('sale.sale_client','client');
     query.where('sale.sale_totalPayment < sale.sale_totalRetail');
-    console.log(await query.getCount());
-    
+    query.andWhere(':today >= sale.sale_maxDate', {today});
+    return query.getMany();    
   }
 }

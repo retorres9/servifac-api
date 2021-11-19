@@ -2,7 +2,6 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { EntityRepository, getConnection, Like, Repository } from 'typeorm';
 import { Client } from './client.entity';
 import { CreateClientDto } from './create-client.dto';
-import { CreditAuth } from './models/credit-auth.dto';
 import { Credit } from '../credit/credit.entity';
 import { ClientInfo } from './models/client-info.dto';
 
@@ -178,6 +177,7 @@ export class ClientRepository extends Repository<Client> {
         'credit',
       ])
       .where('client.cli_ci = :client_ci', { client_ci: ci });
+      query.orderBy('sale.sale_date','DESC');
     return query.getOne();
   }
 }
