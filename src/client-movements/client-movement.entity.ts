@@ -6,7 +6,7 @@ export class ClientMovement extends BaseEntity {
     @PrimaryGeneratedColumn()
     clp_id: number;
 
-    @Column({type: 'decimal', precision: 7, scale: 3})
+    @Column({type: 'decimal', precision: 7, scale: 2})
     clp_amount: number;
 
     @Column()

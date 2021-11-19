@@ -10,16 +10,23 @@ export class SaleController {
     onNewSale(@Body()createSaleDto: CreateSaleDto) {
         return this.saleService.createSale(createSaleDto);
     }
-    
-    @Get('/:saleId')
-    getSaleById(@Param('saleId')saleId: string) {        
-        return this.saleService.getSales(saleId);
-    }
 
+    @Get('alert')
+    getAlert() {
+        return this.saleService.getAlert();
+    }
+    
     @Get('/listing')
-    getSales(@Query('date')date: string) {
-        console.log(date);
+    getSales(@Query('date')date) {
+        console.log(date, 'date');
         
         return this.saleService.getSales(date);
     }
+
+    @Get('/:saleId')
+    getSaleById(@Param('saleId')saleId: string) {      
+        console.log(saleId);
+        return this.saleService.getSaleById(saleId);
+    }
+
 }
