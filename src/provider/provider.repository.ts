@@ -5,7 +5,7 @@ import { Provider } from './provider.entity';
 import { BadRequestException } from '@nestjs/common';
 
 @EntityRepository(Provider)
-export class PorviderRepository extends Repository<Provider> {
+export class ProviderRepository extends Repository<Provider> {
   async createProvider(
     createProviderDto: CreateProviderDto,
   ): Promise<Provider> {
@@ -54,5 +54,11 @@ export class PorviderRepository extends Repository<Provider> {
     const query = this.createQueryBuilder('provider');
     query.where('provider.prov_isActive = true');
     return query.getMany();
+  }
+
+  async getProvider(ruc: string) {
+    const query = this.createQueryBuilder('provider');
+    query.where('provider.prov_ruc = :ruc', {ruc});
+    return query.getOne();
   }
 }

@@ -2,6 +2,7 @@ import { BaseEntity, Entity, PrimaryColumn, Column, OneToMany, PrimaryGeneratedC
 import { AccountType } from './prov_account-type.enum';
 import { ProviderMovement } from '../provider-movement/provider-movement.entity';
 import { ProductProvider } from '../product-provider/product-provider.entity';
+import { Purchases } from 'src/purchases/purchases.entity';
 
 @Entity()
 export class Provider extends BaseEntity {
@@ -34,4 +35,7 @@ export class Provider extends BaseEntity {
 
     @OneToMany(type => ProductProvider, productProvider => productProvider.ppr_provider)
     ppr_provider: ProductProvider;
+
+    @OneToMany(type => Purchases, purchases => purchases.provider)
+    prov_pur: Purchases;
 }

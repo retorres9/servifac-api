@@ -3,6 +3,7 @@ import { UserRole } from './user-role.enum';
 import { Sale } from '../sale/sale.entity';
 import { ProviderMovement } from '../provider-movement/provider-movement.entity';
 import { Credit } from '../credit/credit.entity';
+import { Purchases } from '../purchases/purchases.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -38,4 +39,7 @@ export class User extends BaseEntity {
 
   @OneToMany(type => Credit, credit => credit.user)
   credit: Credit;
+
+  @OneToMany(type => Purchases, purchases => purchases.user)
+  purchase: Purchases;
 }

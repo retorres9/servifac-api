@@ -21,4 +21,9 @@ export class ProviderController {
     getProviderName(): Promise<GetProviderName> {
         return this.providerService.getProvidersName();
     }
+
+    @Get('/:providerRuc')
+    getProvider(@Param('providerRuc') ruc: string) {
+        return this.providerService.getProvider(ruc);
+    }
 }
