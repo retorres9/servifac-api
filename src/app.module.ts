@@ -16,6 +16,7 @@ import { ProductProviderModule } from './product-provider/product-provider.modul
 import { UserModule } from './user/user.module';
 import { ConfigurationModule } from './configuration/configuration.module';
 import { CreditModule } from './credit/credit.module';
+import { PurchasesModule } from './purchases/purchases.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { CreditModule } from './credit/credit.module';
     UserModule,
     ConfigurationModule,
     CreditModule,
+    PurchasesModule,
   ],
   controllers: [],
   providers: [],

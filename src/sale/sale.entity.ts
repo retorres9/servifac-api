@@ -12,10 +12,10 @@ export class Sale extends BaseEntity {
     })
     sale_id: number;
 
-    @Column({type: 'decimal', precision: 7, scale: 3})
+    @Column({type: 'decimal', precision: 7, scale: 2})
     sale_totalRetail: number;
 
-    @Column({type: 'decimal', precision: 7, scale: 3})
+    @Column({type: 'decimal', precision: 7, scale: 2})
     sale_totalPayment: number;
 
     @Column({type: 'date'})
