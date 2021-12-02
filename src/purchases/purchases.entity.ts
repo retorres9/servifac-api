@@ -10,7 +10,7 @@ export class Purchases extends BaseEntity {
     @Column({type: 'decimal', precision: 10, scale: 2})
     pur_amount: number;
 
-    @Column({type: 'decimal', precision: 10, scale: 2})
+    @Column({type: 'decimal', precision: 10, scale: 2, default: 0.00})
     pur_paid: number;
 
     @Column({type: 'date'})

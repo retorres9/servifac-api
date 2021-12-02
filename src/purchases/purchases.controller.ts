@@ -8,7 +8,7 @@ export class PurchasesController {
         
     }
     @Post()
-    postPurchase(@Body() createPurchaseDto: CreatePurchaseDto) {        
+    postPurchase(@Body() createPurchaseDto: CreatePurchaseDto) {
         return this.purchaseService.postPurchase(createPurchaseDto);
     }
 }
