@@ -4,12 +4,13 @@ import { CreatePurchaseDto } from './models/create-purchase.model';
 import { User } from '../user/user.entity';
 import { Provider } from '../provider/provider.entity';
 import { BadRequestException } from '@nestjs/common';
+import { QueryPurchase } from './models/query-purchase.model';
 
 @EntityRepository(Purchases)
 export class PurchaseRepository extends Repository<Purchases> {
     async postPurchase(createPurchase: CreatePurchaseDto) {
         const { pur_amount, pur_info, provider, user, pur_maxDate } =
-            createPurchase;
+        createPurchase;
         const userId = await User.findOne(user);
         const providerId = await Provider.findOne(user);
         const purchase = this.create({
@@ -19,12 +20,21 @@ export class PurchaseRepository extends Repository<Purchases> {
             pur_info,
             user: userId,
             provider: providerId,
-        });
+        });        
         try {
-            await purchase.save();
+            await purchase.save();            
         } catch (error) {
-            throw new BadRequestException()
+            throw new BadRequestException();
         }
-        return 'Purchase created successfully';
+    }
+
+    async getPurchases(query: QueryPurchase) {
+        const { from, to } = query;        
+        const querySQL = this.createQueryBuilder('purchases');
+        querySQL.where(
+            'purchases.pur_date BETWEEN CAST(:from AS DATE) AND CAST(:to AS DATE)'
+            , {from, to}
+        );
+        return querySQL.getMany();
     }
 }
