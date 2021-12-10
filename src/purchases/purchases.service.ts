@@ -15,4 +15,8 @@ export class PurchasesService {
     getPurchases(query: QueryPurchase) {
         return this.purchaseRepository.getPurchases(query);
     }
+
+    getPurchasesAlarm(query: any) {
+        return this.purchaseRepository.getPurchasesAlarm(query);
+    }
 }

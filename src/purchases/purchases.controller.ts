@@ -17,4 +17,9 @@ export class PurchasesController {
     getPurchases(@Query() query: QueryPurchase) {
         return this.purchaseService.getPurchases(query);
     }
+
+    @Get('/alarm')
+    getPurchasesAlarm(@Query() query: string) {
+        return this.purchaseService.getPurchasesAlarm(query);
+    }
 }

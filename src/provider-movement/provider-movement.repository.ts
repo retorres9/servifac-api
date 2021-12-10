@@ -3,13 +3,16 @@ import { ProviderMovement } from './provider-movement.entity';
 import { createProviderMovementDto } from './create-providerMovement.dto';
 import { Provider } from 'src/provider/provider.entity';
 import { User } from '../user/user.entity';
+import { Purchases } from '../purchases/purchases.entity';
+import Decimal from 'decimal.js';
+import { BadRequestException } from '@nestjs/common';
 
 @EntityRepository(ProviderMovement)
 export class ProviderMovementRepository extends Repository<ProviderMovement> {
     async postProviderMovement(
         createPMDto: createProviderMovementDto,
     ): Promise<ProviderMovement> {
-        const { pmv_amount, pmv_movement, pmv_description, provider, pmv_type } =
+        let { pmv_amount, pmv_movement, pmv_description, provider, pmv_type } =
         createPMDto;
         const providerEntity = await Provider.findOne(provider);
         const today = new Date().getTimezoneOffset();
@@ -27,14 +30,40 @@ export class ProviderMovementRepository extends Repository<ProviderMovement> {
                 provider: providerEntity,
                 pmv_type: pmv_type ? pmv_type : null
             })            
-            console.log(transaction);
+            if (pmv_movement === 'PAGO') {
+                const purchases = Purchases.createQueryBuilder('purchases');
+                purchases.where('purchases.pur_amount > purchases.pur_paid');
+                purchases.andWhere('purchases.pur_ruc = :provider', {provider})
+                purchases.orderBy('purchases.pur_date', 'ASC');
+                // ! Check order of purchases payment must pay the oldest first
+                const selectedPurchases =  await purchases.getMany();
+                let amount = pmv_amount;
+                let purchasesEdited = selectedPurchases.map(purchases => {
+                    let reduction = new Decimal(purchases.pur_amount).minus(new Decimal(purchases.pur_paid));
+                    console.log(reduction, 'reduction');
+                    console.log(amount, 'amount');
+                    if (+new Decimal(reduction) <= +new Decimal(amount) && amount > 0) {
+                        amount -= +reduction;
+                        console.log(amount, 'on reduction');
+                        purchases.pur_paid = purchases.pur_amount;
+                    } else {
+                        let totalPaid = purchases.pur_paid === 0 ? Number(Math.round(purchases.pur_paid)) : Number(purchases.pur_paid);
+                        amount = amount < 0 ? amount = 0 : amount;
+                        purchases.pur_paid = +new Decimal(totalPaid).plus(new Decimal(amount));
+                        amount = 0;
+                    }
+                    return purchases;
+                })
+                Purchases.save(purchasesEdited);
+                
+            }
             try {
                 await transaction.save();
                 delete transaction.pmv_user;
                 delete transaction.provider;
                 return transaction;
             } catch (error) {
-                console.log(error);
+                throw new BadRequestException();
             }
         }
         
