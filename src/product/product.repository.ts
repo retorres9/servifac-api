@@ -87,15 +87,6 @@ export class ProductRepository extends Repository<Product> {
     })
 
     return prodsFilterd;
-    // const query = this.createQueryBuilder('product')
-    //   .leftJoinAndSelect('product.category', 'category')
-    //   .leftJoinAndSelect('product.warehouseStock', 'warehouseStock')
-    //   .leftJoinAndSelect('warehouseStock.warehouses', 'warehouse')
-    //   .leftJoinAndSelect('product.ppr_provider', 'product_provider')
-    //   .leftJoinAndSelect('product_provider.ppr_provider', 'provider')
-    //   .select(['product.prod_name', 'product_provider', 'provider.prov_ruc']);
-    
-    // return query.getMany();
   }
 
   async getProductBarcode(prod_code, tax): Promise<ProductBarcode> {
