@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { WarehouseService } from '../warehouse/warehouse.service';
 import { CreateWarehouseDto } from './create-warehouse.dto';
 import { Warehouse } from './warehouse.entity';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('warehouse')
+@UseGuards(AuthGuard())
 export class WarehouseController {
     constructor(private warehouseService: WarehouseService) {}
 

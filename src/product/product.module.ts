@@ -17,6 +17,7 @@ import { ConfigurationRepository } from '../configuration/configuration.reposito
       ProductProviderRepository,
       ConfigurationRepository,
     ]),
+    UserModule
   ],
 })
 export class ProductModule {}

@@ -25,7 +25,6 @@ export class ProductRepository extends Repository<Product> {
       loc_id,
       ppr_productProvider,
     } = createProductDto;
-    console.log(ppr_productProvider);
 
     const prodFound = await this.findOne(prod_code);
 
@@ -66,7 +65,6 @@ export class ProductRepository extends Repository<Product> {
     pp.ppr_product = prod_code;
 
     pp.ppr_provider = ppr_productProvider;
-    console.log(pp);
     await getConnection().transaction(async (transactionalEntityManager) => {
       try {
         await transactionalEntityManager.save(product);

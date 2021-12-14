@@ -36,10 +36,7 @@ export class ClientMovementRespository extends Repository<ClientMovement> {
             delete sale.sale_client;
         })
         const client = await Client.findOne(cli_ci);
-        if (client) {
-            console.log(client);
-            
-        } else {
+        if (!client) {
             throw new BadRequestException();
         }
         const clientMovement = new ClientMovement();

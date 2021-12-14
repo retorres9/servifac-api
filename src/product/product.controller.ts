@@ -4,12 +4,12 @@ import { ProductService } from './product.service';
 import { Product } from './product.entity';
 import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard())
 @Controller('product')
 export class ProductController {
     constructor(private productService: ProductService) {}
 
     @Post()
-    @UseGuards(AuthGuard())
     createProduct(@Body() createProductDto: CreateProductDto): Promise<Product> {
         return this.productService.createProduct(createProductDto);
     }

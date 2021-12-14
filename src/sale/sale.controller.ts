@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { SaleService } from './sale.service';
 import { CreateSaleDto } from './create-sale.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('sale')
+@UseGuards(AuthGuard())
 export class SaleController {
     constructor(private saleService: SaleService) {}
 
