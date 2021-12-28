@@ -7,7 +7,7 @@ export class SaleDetail extends BaseEntity {
     @PrimaryGeneratedColumn({unsigned: true})
     sdt_id: number;
 
-    @Column({type: 'tinyint'})
+    @Column({type: 'smallint'})
     sdt_quantity: number;
 
     @Column({type: 'decimal', precision: 7, scale: 3})
