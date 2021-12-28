@@ -1,5 +1,5 @@
 import { WarehouseStock } from "src/warehouse-stock/warehouse-stock.entity";
-import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryColumn, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryColumn, JoinColumn } from 'typeorm';
 import { Category } from '../category/category.entity';
 import { Location } from '../location/location.entity';
 import { SaleDetail } from '../sale-detail/sale-detail.entity';
