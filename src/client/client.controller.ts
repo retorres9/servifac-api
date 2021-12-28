@@ -2,7 +2,6 @@ import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@ne
 import { ClientService } from './client.service';
 import { Client } from './client.entity';
 import { CreateClientDto } from './create-client.dto';
-import { CreditAuth } from './models/credit-auth.dto';
 import { ClientInfo } from './models/client-info.dto';
 import { AuthGuard } from '@nestjs/passport';
 

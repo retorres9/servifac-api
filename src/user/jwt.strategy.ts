@@ -1,9 +1,8 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { UserRespository } from './user.repository';
-import { jwtConstants } from './user.constants';
 import { JwtPayload } from './jwt.payload';
 import { User } from './user.entity';
 import { ConfigService } from '@nestjs/config';
