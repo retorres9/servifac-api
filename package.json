@@ -36,6 +36,7 @@
         "bcrypt": "^5.0.1",
         "class-transformer": "^0.4.0",
         "class-validator": "^0.13.1",
+        "cross-env": "^7.0.3",
         "decimal.js": "^10.3.1",
         "heroku": "^7.59.2",
         "mysql": "^2.18.1",
