@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ProviderService } from './provider.service';
 import { CreateProviderDto } from './create-provider.dto';
 import { GetProviderName } from './get-roviderName.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('provider')
+@UseGuards(AuthGuard())
 export class ProviderController {
     constructor(private providerService: ProviderService) {}
 

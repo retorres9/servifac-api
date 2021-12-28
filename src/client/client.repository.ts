@@ -70,7 +70,6 @@ export class ClientRepository extends Repository<Client> {
       cli_address,
       cli_credit,
     } = createClientDto;
-    console.log(cli_debt);
     
     let updatedClient = await Client.findOne(cli_ci);
     if (!updatedClient) {
@@ -159,7 +158,7 @@ export class ClientRepository extends Repository<Client> {
     try {
       return users;
     } catch (error) {
-      console.log(error);
+      throw new BadRequestException();
     }
   }
 

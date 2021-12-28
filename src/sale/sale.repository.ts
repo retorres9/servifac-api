@@ -59,8 +59,6 @@ export class SaleRepository extends Repository<Sale> {
           transactionalEntityManager.save(saleDetail);
         }
       } catch (error) {
-        console.log(error);
-        
         throw new BadRequestException(error);
       }
     });

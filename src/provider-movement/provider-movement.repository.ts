@@ -40,11 +40,8 @@ export class ProviderMovementRepository extends Repository<ProviderMovement> {
                 let amount = pmv_amount;
                 let purchasesEdited = selectedPurchases.map(purchases => {
                     let reduction = new Decimal(purchases.pur_amount).minus(new Decimal(purchases.pur_paid));
-                    console.log(reduction, 'reduction');
-                    console.log(amount, 'amount');
                     if (+new Decimal(reduction) <= +new Decimal(amount) && amount > 0) {
                         amount -= +reduction;
-                        console.log(amount, 'on reduction');
                         purchases.pur_paid = purchases.pur_amount;
                     } else {
                         let totalPaid = purchases.pur_paid === 0 ? Number(Math.round(purchases.pur_paid)) : Number(purchases.pur_paid);

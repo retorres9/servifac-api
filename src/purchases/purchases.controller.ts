@@ -1,9 +1,11 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { PurchasesService } from './purchases.service';
 import { CreatePurchaseDto } from './models/create-purchase.model';
 import { QueryPurchase } from './models/query-purchase.model';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('purchases')
+@UseGuards(AuthGuard())
 export class PurchasesController {
     constructor(private purchaseService: PurchasesService) {
         

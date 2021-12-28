@@ -10,17 +10,40 @@ import { ClientPaymentModule } from './client-movements/client-movement.module';
 import { SaleDetailModule } from './sale-detail/sale-detail.module';
 import { WarehouseStockModule } from './warehouse-stock/warehouse-stock.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TYPEORMCONFIG } from './config/typeorm.config';
+// import { TYPEORMCONFIG } from './config/typeorm.config';
 import { ClientModule } from './client/client.module';
 import { ProductProviderModule } from './product-provider/product-provider.module';
 import { UserModule } from './user/user.module';
 import { ConfigurationModule } from './configuration/configuration.module';
 import { CreditModule } from './credit/credit.module';
 import { PurchasesModule } from './purchases/purchases.module';
-
+import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
   imports: [
-    TypeOrmModule.forRoot(TYPEORMCONFIG),
+    ConfigModule.forRoot({
+      envFilePath: [`.env.stage.${process.env.STAGE}`]
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const inProduction = configService.get('STAGE') === 'prod';
+        return {
+          ssl: inProduction,
+          extra: {
+            ssl: inProduction ? {rejectUnauthorized: false} : null
+          },
+          type: 'postgres',
+          autoLoadEntities: true,
+          syncronize: ' true',
+          host: configService.get('DB_HOST'),
+          port: configService.get('DB_PORT'),
+          username: configService.get('DB_USERNAME'),
+          password: configService.get('DB_PASSWORD'),
+          database: configService.get('DB_DATABASE'),
+        }
+      }
+    }),
     WarehouseModule,
     CategoryModule,
     LocationModule,

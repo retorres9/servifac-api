@@ -40,8 +40,6 @@ export class CreditRepository extends Repository<Credit> {
             throw new BadRequestException();
         }
         if (credit) {
-            console.log('found');
-            console.log(credit);
             const creditInfo = this.create({cre_id: credit.cre_id, client, cre_amount: amount, user});
             
             creditStatus =  await creditInfo.save();

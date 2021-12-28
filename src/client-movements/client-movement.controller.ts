@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ClientMovementDto } from './client-movement.dto';
 import { ClientMovementService } from './client-movement.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('client-movement')
+@UseGuards(AuthGuard())
 export class ClientMovementController {
     constructor(private clientMovementService: ClientMovementService) {}
 

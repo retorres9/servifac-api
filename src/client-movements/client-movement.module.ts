@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientMovementRespository } from './client-movement.repository';
 import { ClientRepository } from 'src/client/client.repository';
 import { SaleRepository } from '../sale/sale.repository';
+import { UserModule } from '../user/user.module';
 
 @Module({
   controllers: [ClientMovementController],
@@ -15,6 +16,7 @@ import { SaleRepository } from '../sale/sale.repository';
       ClientRepository,
       SaleRepository,
     ]),
+    UserModule
   ],
 })
 export class ClientPaymentModule {}
