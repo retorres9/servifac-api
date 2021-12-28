@@ -11,7 +11,7 @@ export class ProviderMovement extends BaseEntity {
     @Column({type: 'decimal', precision: 7, scale: 2})
     pmv_amount: number;
 
-    @Column({type: 'datetime'})
+    @Column({type: 'date'})
     pmv_date: Date;
 
     @Column({nullable: true})
