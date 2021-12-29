@@ -34,13 +34,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             ssl: inProduction ? {rejectUnauthorized: false} : null
           },
           type: 'postgres',
-          autoLoadEntities: true,
-          syncronize: true,
           host: configService.get('DB_HOST'),
           port: configService.get('DB_PORT'),
           username: configService.get('DB_USERNAME'),
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB_DATABASE'),
+          autoLoadEntities: true,
+          syncronize: true,
+          logging: true
         }
       }
     }),
