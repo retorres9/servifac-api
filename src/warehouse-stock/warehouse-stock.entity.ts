@@ -4,7 +4,7 @@ import { Product } from '../product/product.entity';
 
 @Entity()
 export class WarehouseStock extends BaseEntity {
-    @PrimaryGeneratedColumn({type: "mediumint"})
+    @PrimaryGeneratedColumn({type: "smallint"})
     wrs_id: number;
 
     @Column()
