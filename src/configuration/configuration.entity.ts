@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Configuration extends BaseEntity {
-    @PrimaryGeneratedColumn({type: 'tinyint'})
+    @PrimaryGeneratedColumn({type: 'smallint'})
     id: number;
 
     @Column()
