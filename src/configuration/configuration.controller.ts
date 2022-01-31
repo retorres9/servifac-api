@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Patch } from '@nestjs/common';
 import { ConfigurationService } from './configuration.service';
+import { ConfigurationModel } from './configuration.model';
 
 @Controller('configuration')
 export class ConfigurationController {
@@ -8,5 +9,12 @@ export class ConfigurationController {
     @Get()
     getConfiguration() {
         return this.configurationService.getConfiguration();
+    }
+
+    @Patch()
+    patchConfiguration(@Body() config: ConfigurationModel) {
+        console.log(config);
+        
+        return this.configurationService.patchConfiguration(config);
     }
 }

@@ -11,11 +11,10 @@ export class CategoryRepository extends Repository<Category> {
             cat_name
         });
         try {
-            await category.save();
+            return category.save();
         } catch (error) {
             throw new BadRequestException();
         }
-        return category;
     }
 
     async getCategories(): Promise<Category[]> {

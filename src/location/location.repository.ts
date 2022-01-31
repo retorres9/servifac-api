@@ -5,7 +5,7 @@ import { BadRequestException } from '@nestjs/common';
 
 @EntityRepository(Location)
 export class LocationRepository extends Repository<Location> {
-    createLocation(createLocationDto: CreateLocationDto): Promise<Location> {
+    async createLocation(createLocationDto: CreateLocationDto): Promise<Location> {
         const {loc_name} = createLocationDto;
         const location = this.create({loc_name});
         try {
@@ -15,7 +15,7 @@ export class LocationRepository extends Repository<Location> {
         }
     }
 
-    getLocations(): Promise<Location[]> {
+    async getLocations(): Promise<Location[]> {
         const query = this.createQueryBuilder('location');
         return query.getMany();;
     }

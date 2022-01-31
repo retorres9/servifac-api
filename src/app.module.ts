@@ -33,7 +33,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           extra: {
             ssl: inProduction ? {rejectUnauthorized: false} : null
           },
-          type: 'postgres',
+          type: 'mysql',
           autoLoadEntities: true,
           synchronize: true,
           host: configService.get('DB_HOST'),

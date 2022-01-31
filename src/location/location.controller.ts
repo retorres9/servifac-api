@@ -15,6 +15,8 @@ export class LocationController {
 
     @Post()
     createLocation(@Body() createLocationDto: CreateLocationDto) {
+        console.log(createLocationDto);
+        
         return this.locationService.createLocation(createLocationDto);
     }
 }
