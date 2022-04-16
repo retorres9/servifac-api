@@ -13,8 +13,6 @@ export class ConfigurationController {
 
     @Patch()
     patchConfiguration(@Body() config: ConfigurationModel) {
-        console.log(config);
-        
         return this.configurationService.patchConfiguration(config);
     }
 }

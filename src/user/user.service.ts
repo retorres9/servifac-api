@@ -22,10 +22,8 @@ export class UserService {
 
   async login(loginUserDto: LoginUserDto): Promise<{ accessToken: string }> {
     const { user_username, user_password } = loginUserDto;
-    console.log(user_username);
     let user = new User();
     user = await this.userRepository.findOne({ user_username });
-    console.log(user);
     if (!user) {
       throw new UnauthorizedException('Check login credentials');
     }

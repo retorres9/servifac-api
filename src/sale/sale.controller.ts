@@ -20,14 +20,11 @@ export class SaleController {
     
     @Get('/listing')
     getSales(@Query('date')date) {
-        console.log(date, 'date');
-        
         return this.saleService.getSales(date);
     }
 
     @Get('/:saleId')
-    getSaleById(@Param('saleId')saleId: string) {      
-        console.log(saleId);
+    getSaleById(@Param('saleId')saleId: string) {
         return this.saleService.getSaleById(saleId);
     }
 

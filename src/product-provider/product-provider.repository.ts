@@ -1,6 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
 import { CreateProductProviderDto } from "./create-product-provider.dto";
 import { ProductProvider } from './product-provider.entity';
+import { BadRequestException } from '@nestjs/common'
 
 @EntityRepository(ProductProvider)
 export class ProductProviderRepository extends Repository<ProductProvider> {
@@ -9,9 +10,7 @@ export class ProductProviderRepository extends Repository<ProductProvider> {
 
         const productProvider = new ProductProvider();
         productProviderDto.prod_code = prod_code;
-        productProviderDto.prov_ruc = prov_ruc;
-        console.log(prov_ruc);
-        
+        productProviderDto.prov_ruc = prov_ruc;        
         // productProvider.ppr_product = productProviderDto.ppr_product;
         // productProvider.ppr_provider = productProviderDto.ppr_provider;
         // console.log(productProviderDto.ppr_product+ " " +productProviderDto.ppr_provider);
@@ -25,7 +24,7 @@ export class ProductProviderRepository extends Repository<ProductProvider> {
         try {
             return productProvider;
         } catch (error) {
-            console.log(error);
+            throw new BadRequestException();
         }
     }
 }

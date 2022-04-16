@@ -10,13 +10,11 @@ export class ProviderMovementController {
     
     @Post()
     postProviderMovement(@Body() createProvMov: createProviderMovementDto) {
-        console.log(createProvMov);
         return this.pmvService.postProviderMovement(createProvMov);
     }
 
     @Get()
     getProviderMovements(@Query() queryObject: any) {
-        console.log(queryObject);
         return this.pmvService.getProviderMovements(queryObject);
     }
 }

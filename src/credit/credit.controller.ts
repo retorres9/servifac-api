@@ -16,8 +16,6 @@ export class CreditController {
 
     @Post()
     postCreditAuthorization(@Body()creditAuthorization: CreditAuth): Promise<boolean> {
-        console.log('here');
-        
         return this.creditService.postCreditAuthorization(creditAuthorization);
     }
 }

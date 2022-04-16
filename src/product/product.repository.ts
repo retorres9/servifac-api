@@ -108,7 +108,7 @@ export class ProductRepository extends Repository<Product> {
   }
 
   async  getProductsInventory(criteria: string): Promise<Product[]> {
-    const result = this.find({
+    const result = await this.find({
       where: [
         {
           prod_name: Like(`%${criteria}%`)
@@ -122,7 +122,10 @@ export class ProductRepository extends Repository<Product> {
           prod_name: 'ASC'
         }
       
-    })
+    });
+    result.forEach(element => {
+      element.prod_price = this.roundPrice(element.prod_price);
+    });
     return result;
   }
 
@@ -141,6 +144,25 @@ export class ProductRepository extends Repository<Product> {
   }
 
   private getPrice(price: number, normalProfit: number, tax: number) {
-    return price + price * (normalProfit / 100 + tax /100);
+    let calcPrice =  price + price * (normalProfit / 100 + tax /100);
+    calcPrice = this.roundPrice(calcPrice);    
+    return calcPrice;
+  }
+
+  private roundPrice(price: number) {    
+    let stringPrice = typeof(price) === 'string' ? String(price).split('.'): String(price.toFixed(2)).split('.');
+    if (stringPrice[1] === undefined) {
+      return price;
+    }
+    if (Number(stringPrice[1]) >= 95) {
+      return Math.round(price);
+    }
+    let decimal;
+    
+    +stringPrice % 5 === 0
+      ? (decimal = Number(stringPrice[1]))
+      : (decimal = Number(Math.floor(Number(stringPrice[1]) / 5) * 5) + 5);
+      let roundedPrice = `${stringPrice[0]}.${decimal}`;
+      return +roundedPrice
   }
 }
