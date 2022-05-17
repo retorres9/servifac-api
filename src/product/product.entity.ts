@@ -25,7 +25,7 @@ export class Product extends BaseEntity {
     @Column({default: true})
     prod_inStock: boolean;
 
-    @Column({type: 'smallint', default: 23})
+    @Column({type: 'int', default: 23})
     prod_quantity: number;
 
     @Column({type: 'smallint', default: 2})
