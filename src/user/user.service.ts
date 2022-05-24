@@ -7,6 +7,8 @@ import { LoginUserDto } from './login-user.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './jwt.payload';
+import { ResetPassword } from './model/resetPassword.model';
+import { UpdatePasswordDto } from './model/updatePassword.dto';
 
 @Injectable()
 export class UserService {
@@ -14,7 +16,7 @@ export class UserService {
     @InjectRepository(UserRespository)
     private userRepository: UserRespository,
     private jwtService: JwtService,
-  ) {}
+  ) { }
 
   async signUp(createUserDto: CreateUserDto): Promise<User> {
     return this.userRepository.createUser(createUserDto);
@@ -35,5 +37,13 @@ export class UserService {
     } else {
       throw new UnauthorizedException('Check login credentials');
     }
+  }
+
+  async resetPassword(user_values: ResetPassword) {
+    return this.userRepository.resetPassword(user_values);
+  }
+
+  async updatePassword(updatePassword: UpdatePasswordDto) {
+    return this.userRepository.updatePassword(updatePassword);
   }
 }

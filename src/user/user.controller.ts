@@ -1,11 +1,13 @@
-import { Body, Controller, Post} from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './create-user.dto';
 import { LoginUserDto } from './login-user.dto';
+import { ResetPassword } from './model/resetPassword.model';
+import { UpdatePasswordDto } from './model/updatePassword.dto'
 
 @Controller('user')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) { }
 
   @Post('/signup')
   signUp(@Body() createUserDto: CreateUserDto) {
@@ -13,7 +15,17 @@ export class UserController {
   }
 
   @Post('/login')
-  login(@Body() loginUserDto: LoginUserDto): Promise<{accessToken: string}> {
+  login(@Body() loginUserDto: LoginUserDto): Promise<{ accessToken: string }> {
     return this.userService.login(loginUserDto);
+  }
+
+  @Post('/reset')
+  resetPassword(@Body() user_values: ResetPassword) {
+    return this.userService.resetPassword(user_values);
+  }
+
+  @Post('/update')
+  updatePassword(@Body() updatePassword: UpdatePasswordDto) {
+    return this.userService.updatePassword(updatePassword);
   }
 }

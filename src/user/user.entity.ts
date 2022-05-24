@@ -7,7 +7,7 @@ import { Purchases } from '../purchases/purchases.entity';
 
 @Entity()
 export class User extends BaseEntity {
-  @PrimaryColumn({type: 'varchar'})
+  @PrimaryColumn({ type: 'varchar' })
   user_ci: string;
 
   @Column({ nullable: false })
@@ -27,6 +27,12 @@ export class User extends BaseEntity {
 
   @Column({ type: 'boolean', default: true })
   user_isActive: boolean;
+
+  @Column({ nullable: false })
+  user_email: string;
+
+  @Column()
+  user_tempPass: string;
 
   @OneToMany((type) => Sale, (sale) => sale.sale_user)
   user_sale: number;
