@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './create-user.dto';
 import { LoginUserDto } from './login-user.dto';
@@ -27,5 +27,10 @@ export class UserController {
   @Post('/update')
   updatePassword(@Body() updatePassword: UpdatePasswordDto) {
     return this.userService.updatePassword(updatePassword);
+  }
+
+  @Post('/cash_register')
+  onCashRegister(@Body() loginUserDto: LoginUserDto) {
+    return this.userService.onCashRegister();
   }
 }

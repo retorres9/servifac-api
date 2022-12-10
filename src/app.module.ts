@@ -31,7 +31,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         return {
           ssl: inProduction,
           extra: {
-            ssl: inProduction ? {rejectUnauthorized: false} : null
+            ssl: inProduction ? { rejectUnauthorized: false } : null
           },
           type: 'mysql',
           autoLoadEntities: true,
@@ -64,4 +64,4 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

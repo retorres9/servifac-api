@@ -26,9 +26,10 @@ export class UserService {
     const { user_username, user_password } = loginUserDto;
     let user = new User();
     user = await this.userRepository.findOne({ user_username });
-    if (!user) {
+    if (!user || user.user_tempPass) {
       throw new UnauthorizedException('Check login credentials');
     }
+
     const user_userRole = user.user_role;
     if (await bcrypt.compare(user_password, user.user_password)) {
       const payload: JwtPayload = { user_username, user_userRole };
@@ -45,5 +46,9 @@ export class UserService {
 
   async updatePassword(updatePassword: UpdatePasswordDto) {
     return this.userRepository.updatePassword(updatePassword);
+  }
+
+  async onCashRegister() {
+    return this.userRepository.onCashRegister();
   }
 }

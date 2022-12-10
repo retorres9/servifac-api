@@ -86,6 +86,20 @@ export class UserRespository extends Repository<User> {
     }
   }
 
+  async onCashRegister() {
+    const today = new Date("2022-04-16").toISOString().split('T')[0];
+    const query = this.createQueryBuilder('user');
+    query.leftJoinAndSelect('user.user_sale', 'userSale');
+    query.select(['user.user_username']);
+    query.addSelect('sum(userSale.sale_totalPayment)', 'total_amount');
+    query.where('user.user_ci = userSale.user_ci');
+    query.andWhere('user.user_ci = 1112849412');
+    query.andWhere(`userSale.sale_date = "${today}"`);
+    query.groupBy('userSale.sale_paymentType');
+    const result = await query.getRawMany();
+    return result;
+  }
+
   private async genPassword(rawPassword: string) {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(rawPassword, salt);

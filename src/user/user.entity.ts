@@ -35,7 +35,7 @@ export class User extends BaseEntity {
   user_tempPass: string;
 
   @OneToMany((type) => Sale, (sale) => sale.sale_user)
-  user_sale: number;
+  user_sale: Sale;
 
   @OneToMany(
     (type) => ProviderMovement,
